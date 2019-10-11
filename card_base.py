@@ -7,4 +7,4 @@ class card_base(pygame.sprite.Sprite):
         #self.image.set_colorkey((255,255,255))
         self.rect = self.image.get_rect()
         self.basecost = 0
-        self.description = "description"
+        self.description = "dev, card effect description"
