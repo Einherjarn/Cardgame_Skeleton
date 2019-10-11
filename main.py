@@ -1,26 +1,36 @@
 import pygame
-from card_hand import card_hand
+import pygame.freetype
+from card_base import card_base
 
 # Initialization stuff
 pygame.init()
 size = (640,480)
 screen = pygame.display.set_mode(size)
+font = pygame.freetype.Font(None, 24)
 pygame.display.set_caption("cardgame skeleton")
 
-all_sprites_list = pygame.sprite.Group()
+sprites_group = pygame.sprite.Group()
 
 Continue = True
 clock = pygame.time.Clock()
 
-card1 = card_hand()
-card1.rect.x = 320
-card1.rect.y = 240
-all_sprites_list.add(card1)
+cardlist = []
 
-card2 = card_hand()
-card2.rect.x = 370
-card2.rect.y = 240
-all_sprites_list.add(card2)
+card1 = card_base()
+card1.rect.x = 50
+card1.rect.y = 150
+card1.basecost = 10
+card1.description = "test custom desc"
+sprites_group.add(card1)
+cardlist.append(card1)
+
+card2 = card_base()
+card2.rect.x = 350
+card2.rect.y = 150
+sprites_group.add(card2)
+cardlist.append(card2)
+
+card_desc_font = pygame.font.SysFont("arial", 12)
 
 # Main Program Logic Loop
 while Continue:
@@ -28,9 +38,14 @@ while Continue:
         if event.type == pygame.QUIT:
             Continue = False
     
-    all_sprites_list.update()
-    screen.fill((155,155,155))
-    all_sprites_list.draw(screen)
+    sprites_group.update()
+    screen.fill((200,200,200))
+    
+    sprites_group.draw(screen)
+
+    for i in range(len(cardlist)):
+        font.render_to(screen, (cardlist[i].rect.x+20, cardlist[i].rect.y+165), cardlist[i].description, (0, 0, 0))
+        font.render_to(screen, (cardlist[i].rect.x+10, cardlist[i].rect.y+10), str(cardlist[i].basecost), (0, 255, 0))
     # updating screen
     pygame.display.flip()
 
