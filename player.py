@@ -27,21 +27,22 @@ class Player:
         return stats[n]
 
     def shuffle(self):
-        """code"""
+        r=random.SystemRandom
+        r.shuffle(hand)
 
-    """discard n cards"""
-    def discard(self, n):
-        """code"""
+    """discard a card at index i"""
+    def discard(self, i):
+        discard.append(hand.pop(i))
 
     def setMana(self, n):
-        """code"""
+        mana = n
 
     def getMana(self):
-        """code"""
+        return mana
 
     def getHits(self):
-        """code"""
-        
+        return hits
+
     """set hit to index n to true"""
     def setHits(self, n):
-        """code"""
+        hits[n] = True
