@@ -10,6 +10,7 @@ size = (960,720)
 screen = pygame.display.set_mode(size)
 font_description = pygame.freetype.Font(None, 18)
 font_stamcost = pygame.freetype.Font(None, 36)
+font_cardname = pygame.freetype.Font(None, 15)
 pygame.display.set_caption("cardgame skeleton")
 sprites_group = pygame.sprite.Group()
 Continue = True
@@ -47,7 +48,15 @@ def load_card(name, card):
             """for j in range(len(line)):
                 print(line[j], j)"""
             if line[0].strip()==name.strip():
-                card.name = line[0].strip()
+                #convert name from _ to spaces
+                name = line[0].strip()
+                newname = ""
+                for i in name:
+                    if i=="_":
+                        newname +=" "
+                    else:
+                        newname +=i
+                card.name = newname
                 card.artsprite = Sprite(line[1].strip())
                 card.basecost = int(line[2].strip())
                 card.range = int(line[3].strip())
@@ -130,8 +139,9 @@ while Continue:
         sprites_group.add(player1hand[i].artsprite)
         sprites_group.update()
         sprites_group.draw(screen)
-        font_description.render_to(screen, (player1hand[i].cardsprite.rect.x+20, player1hand[i].cardsprite.rect.y+165), player1hand[i].description, (0, 0, 0))
+        font_description.render_to(screen, (player1hand[i].cardsprite.rect.x+20, player1hand[i].cardsprite.rect.y+210), player1hand[i].description, (0, 0, 0))
         font_stamcost.render_to(screen, (player1hand[i].cardsprite.rect.x+10, player1hand[i].cardsprite.rect.y+10), str(player1hand[i].basecost), (0, 255, 0))
+        font_cardname.render_to(screen, (player1hand[i].cardsprite.rect.x+5, player1hand[i].cardsprite.rect.y+180), player1hand[i].name, (0, 0, 0))
         sprites_group.empty()
 
     #for i in range(len(player1hand)):
