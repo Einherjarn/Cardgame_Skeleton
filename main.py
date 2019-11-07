@@ -1,11 +1,12 @@
 import pygame
 import pygame.freetype
+from sprite import Sprite
 from card_base import Card_base
 from player import Player
 
 # Initialization stuff
 pygame.init()
-size = (640,480)
+size = (960,720)
 screen = pygame.display.set_mode(size)
 font_description = pygame.freetype.Font(None, 18)
 font_stamcost = pygame.freetype.Font(None, 36)
@@ -13,7 +14,7 @@ pygame.display.set_caption("cardgame skeleton")
 sprites_group = pygame.sprite.Group()
 Continue = True
 clock = pygame.time.Clock()
-cardlist = []
+spritelist = []
 
 # placeholder example cards
 """
@@ -48,7 +49,7 @@ def load_card(name, card):
                 print(line[j], j)"""
             if line[0].strip()==name.strip():
                 card.name = line[0].strip()
-                card.image_art = line[1].strip()
+                card.artsprite = Sprite(line[1].strip())
                 card.basecost = int(line[2].strip())
                 card.range = int(line[3].strip())
                 for i in range(len(card.target)):
@@ -109,20 +110,27 @@ while Continue:
         if event.type == pygame.QUIT:
             Continue = False
     # all primary game logic goes under here, before the rendering stuff
-    #if player1turn:
-        
+    if player1turn:
+        for i in range(5):
+            if player1deck[i]:
+                player1deck[i].cardsprite.rect.x = 100+(i*150)
+                player1deck[i].cardsprite.rect.y = 350
+                player1deck[i].artsprite.rect.x = 100+(i*150)+3
+                player1deck[i].artsprite.rect.y = 350+3
+                spritelist.append(player1deck[i].cardsprite)
+                spritelist.append(player1deck[i].artsprite)
     # add all card sprites to spritegroup
-    for i in range(len(cardlist)):
-        sprites_group.add(cardlist[i])
+    for i in range(len(spritelist)):
+        sprites_group.add(spritelist[i])
     
     sprites_group.update()
     screen.fill((200,200,200))
     
     sprites_group.draw(screen)
 
-    for i in range(len(cardlist)):
-        font_description.render_to(screen, (cardlist[i].rect.x+20, cardlist[i].rect.y+165), cardlist[i].description, (0, 0, 0))
-        font_stamcost.render_to(screen, (cardlist[i].rect.x+10, cardlist[i].rect.y+10), str(cardlist[i].basecost), (0, 255, 0))
+    for i in range(len(spritelist),2):
+        font_description.render_to(screen, (player1deck[i].cardsprite.rect.x+20, player1deck[i].cardsprite.rect.y+165), player1deck[i].description, (0, 0, 0))
+        font_stamcost.render_to(screen, (player1deck[i].cardsprite.rect.x+10, player1deck[i].cardsprite.rect.y+10), str(player1deck[i].basecost), (0, 255, 0))
     # updating screen
     pygame.display.flip()
 
