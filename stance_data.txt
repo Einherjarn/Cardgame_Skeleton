@@ -1,0 +1,1 @@
+stance_dev_ready stance_dev_ready.png "You are prepared for anything, dev testing stance"

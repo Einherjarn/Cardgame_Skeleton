@@ -1,0 +1,7 @@
+dev_testing_deck_longsword
+attack_strike
+attack_strike
+attack_strike
+attack_strike
+stance_dev_ready
+end_deck

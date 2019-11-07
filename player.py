@@ -3,10 +3,10 @@ class Player:
         """Hits follows the format of
         head, right arm, right torso, right leg, left arm,
         left torso, left leg"""
-        self.hits[False,False,False,False,False,False,False]
+        self.hits = [False,False,False,False,False,False,False]
         """stats are strength, quickness, foresight and fortitution
         in that order"""
-        self.stats[0,0,0,0]
+        self.stats = [0,0,0,0]
         self.deck = deck
         self.hand = []
         self.discard = []

@@ -1,0 +1,1 @@
+attack_strike card_art_strike.png 1 1 True False False False False False False False False False False False False False 1 0 0 0 0 0 0 0 0 0 0 0 0 0 True Dev,_card_test_description stat_str damage+ stance_dev_ready cost-
