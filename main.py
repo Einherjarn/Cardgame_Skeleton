@@ -14,7 +14,6 @@ pygame.display.set_caption("cardgame skeleton")
 sprites_group = pygame.sprite.Group()
 Continue = True
 clock = pygame.time.Clock()
-spritelist = []
 
 # placeholder example cards
 """
@@ -63,10 +62,14 @@ def load_card(name, card):
                 card.take_initiative = strbool(line[32].strip())
                 #convert description from _ to spaces
                 description = line[33].strip()
-                for i in range(len(description)):
+                newdesc = ""
+                for i in description:
                     if i=="_":
-                        i=" "
-                card.description = description
+                        newdesc +=" "
+                    else:
+                        newdesc +=i
+                
+                card.description = newdesc
                 #if there are any modifiers
                 for i in range(0,len(line)-34,2):
                     card.modifiers.append(line[34+i])
@@ -100,8 +103,10 @@ def load_deck(name, deck):
 
 player1turn = True
 player1deck = []
+player1hand = []
 player1 = Player(load_deck("dev_testing_deck_longsword",player1deck))
 player2deck = []
+player2hand = []
 player2 = Player(load_deck("dev_testing_deck_longsword",player2deck))
 
 # Main Program Logic Loop
@@ -114,23 +119,23 @@ while Continue:
         for i in range(5):
             if player1deck[i]:
                 player1deck[i].cardsprite.rect.x = 100+(i*150)
-                player1deck[i].cardsprite.rect.y = 350
+                player1deck[i].cardsprite.rect.y = 350+(i*10)
                 player1deck[i].artsprite.rect.x = 100+(i*150)+3
-                player1deck[i].artsprite.rect.y = 350+3
-                spritelist.append(player1deck[i].cardsprite)
-                spritelist.append(player1deck[i].artsprite)
+                player1deck[i].artsprite.rect.y = 350+(i*10)+3
+                player1hand.append(player1deck[i])
     # add all card sprites to spritegroup
-    for i in range(len(spritelist)):
-        sprites_group.add(spritelist[i])
-    
-    sprites_group.update()
     screen.fill((200,200,200))
-    
-    sprites_group.draw(screen)
+    for i in range(5):
+        sprites_group.add(player1hand[i].cardsprite)
+        sprites_group.add(player1hand[i].artsprite)
+        sprites_group.update()
+        sprites_group.draw(screen)
+        font_description.render_to(screen, (player1hand[i].cardsprite.rect.x+20, player1hand[i].cardsprite.rect.y+165), player1hand[i].description, (0, 0, 0))
+        font_stamcost.render_to(screen, (player1hand[i].cardsprite.rect.x+10, player1hand[i].cardsprite.rect.y+10), str(player1hand[i].basecost), (0, 255, 0))
+        sprites_group.empty()
 
-    for i in range(len(spritelist),2):
-        font_description.render_to(screen, (player1deck[i].cardsprite.rect.x+20, player1deck[i].cardsprite.rect.y+165), player1deck[i].description, (0, 0, 0))
-        font_stamcost.render_to(screen, (player1deck[i].cardsprite.rect.x+10, player1deck[i].cardsprite.rect.y+10), str(player1deck[i].basecost), (0, 255, 0))
+    #for i in range(len(player1hand)):
+
     # updating screen
     pygame.display.flip()
 
