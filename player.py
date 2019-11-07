@@ -1,5 +1,90 @@
+import pygame
+import pygame.freetype
+from sprite import Sprite
+from card_base import Card_base
+
+def strbool(s):
+    if s.lower()=="true":
+        return True
+    else:
+        return False
+
+# loads card of given name into actual card object
+def load_card(name, card):
+    if name:
+        f= open("card_data.txt", "r")
+        stuff = f.readlines()
+        f.close()
+        for i in range(len(stuff)):
+            line = stuff[i].split()
+            """for j in range(len(line)):
+                print(line[j], j)"""
+            if line[0].strip()==name.strip():
+                #convert name from _ to spaces
+                name = line[0].strip()
+                newname = ""
+                for i in name:
+                    if i=="_":
+                        newname +=" "
+                    else:
+                        newname +=i
+                card.name = newname
+                card.artsprite = Sprite(line[1].strip())
+                card.basecost = int(line[2].strip())
+                card.range = int(line[3].strip())
+                for i in range(len(card.target)):
+                    card.target[i] = strbool(line[i+4].strip())
+                for i in range(len(card.defend)):
+                    card.defend[i] = strbool(line[i+11].strip())
+                for i in range(len(card.power)):
+                    card.power[i] = int(line[i+18].strip())
+                for i in range(len(card.defense_power)):
+                    card.defense_power[i] = int(line[i+25].strip())
+                card.take_initiative = strbool(line[32].strip())
+                #convert description from _ to spaces
+                description = line[33].strip()
+                newdesc = ""
+                for i in description:
+                    if i=="_":
+                        newdesc +=" "
+                    else:
+                        newdesc +=i
+                
+                card.description = newdesc
+                #if there are any modifiers
+                for i in range(0,len(line)-34,2):
+                    card.modifiers.append(line[34+i])
+                    card.modifiers.append(line[34+i+1])
+    
+
+# loads deck of given name into given list
+def load_deck(name, deck):
+    if name:
+        f= open("deck_data.txt", "r")
+        stuff = f.readlines()
+        f.close()
+        
+        found = False
+        cardnames = []
+        
+        for i in stuff:
+            if found:
+                if i.strip()!="end_deck":
+                    cardnames.append(i)
+            if i.strip()==name:
+                found = True
+
+        for i in range(len(cardnames)):
+            deck.append(Card_base())
+            load_card(cardnames[i], deck[i])
+        """
+        for i in deck:
+            print(i)
+        """
+
+
 class Player:
-    def __init__(self, deck):
+    def __init__(self, deckname):
         """Hits follows the format of
         head, right arm, right torso, right leg, left arm,
         left torso, left leg"""
@@ -7,7 +92,8 @@ class Player:
         """stats are strength, quickness, foresight and fortitution
         in that order"""
         self.stats = [0,0,0,0]
-        self.deck = deck
+        self.deck = []
+        load_deck(deckname,self.deck)
         self.hand = []
         self.discard = []
         """presuming 10 stamina is max"""
@@ -17,8 +103,12 @@ class Player:
 
     """draw n cards from deck"""
     def draw(self, n):
-        for i in range(n):
-            hand.append(deck.pop())
+        if len(self.deck) >= n:
+            for i in range(n):
+                self.hand.append(self.deck.pop())
+        else:
+            for i in range(len(self.deck)):
+                self.hand.append(self.deck.pop())
     """set stat m to n where n =/= 0"""
     def setStat(self,n,m):
         stats[m] = n

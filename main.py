@@ -31,92 +31,9 @@ card2.rect.y = 150
 cardlist.append(card2)
 """
 
-def strbool(s):
-    if s.lower()=="true":
-        return True
-    else:
-        return False
-
-# loads card of given name into actual card object
-def load_card(name, card):
-    if name:
-        f= open("card_data.txt", "r")
-        stuff = f.readlines()
-        f.close()
-        for i in range(len(stuff)):
-            line = stuff[i].split()
-            """for j in range(len(line)):
-                print(line[j], j)"""
-            if line[0].strip()==name.strip():
-                #convert name from _ to spaces
-                name = line[0].strip()
-                newname = ""
-                for i in name:
-                    if i=="_":
-                        newname +=" "
-                    else:
-                        newname +=i
-                card.name = newname
-                card.artsprite = Sprite(line[1].strip())
-                card.basecost = int(line[2].strip())
-                card.range = int(line[3].strip())
-                for i in range(len(card.target)):
-                    card.target[i] = strbool(line[i+4].strip())
-                for i in range(len(card.defend)):
-                    card.defend[i] = strbool(line[i+11].strip())
-                for i in range(len(card.power)):
-                    card.power[i] = int(line[i+18].strip())
-                for i in range(len(card.defense_power)):
-                    card.defense_power[i] = int(line[i+25].strip())
-                card.take_initiative = strbool(line[32].strip())
-                #convert description from _ to spaces
-                description = line[33].strip()
-                newdesc = ""
-                for i in description:
-                    if i=="_":
-                        newdesc +=" "
-                    else:
-                        newdesc +=i
-                
-                card.description = newdesc
-                #if there are any modifiers
-                for i in range(0,len(line)-34,2):
-                    card.modifiers.append(line[34+i])
-                    card.modifiers.append(line[34+i+1])
-    
-
-# loads deck of given name into given list
-def load_deck(name, deck):
-    if name:
-        f= open("deck_data.txt", "r")
-        stuff = f.readlines()
-        f.close()
-        
-        found = False
-        cardnames = []
-        
-        for i in stuff:
-            if found:
-                if i.strip()!="end_deck":
-                    cardnames.append(i)
-            if i.strip()==name:
-                found = True
-
-        for i in range(len(cardnames)):
-            deck.append(Card_base())
-            load_card(cardnames[i], deck[i])
-        """
-        for i in deck:
-            print(i)
-        """
-
 player1turn = True
-player1deck = []
-player1hand = []
-player1 = Player(load_deck("dev_testing_deck_longsword",player1deck))
-player2deck = []
-player2hand = []
-player2 = Player(load_deck("dev_testing_deck_longsword",player2deck))
+player1 = Player("dev_testing_deck_longsword")
+player2 = Player("dev_testing_deck_longsword")
 
 # Main Program Logic Loop
 while Continue:
@@ -126,32 +43,29 @@ while Continue:
     # all primary game logic goes under here, before the rendering stuff
     # placeholder draw 5 cards if hand empty
     if player1turn:
-        if (len(player1hand)==0):
-            for i in range(5):
-                player1hand.append(player1deck[i])
+        player1.draw(5)
     # rendering stuff
     if player1turn:
-        for i in range(len(player1hand)):
-            if player1hand[i]:
-                print(len(player1hand))
-                player1hand[i].cardsprite.rect.x = 100+(i*150)
-                player1hand[i].cardsprite.rect.y = 350+(i*10)
-                player1hand[i].artsprite.rect.x = 100+(i*150)+3
-                player1hand[i].artsprite.rect.y = 350+(i*10)+3
+        for i in range(len(player1.hand)):
+            if player1.hand[i]:
+                player1.hand[i].cardsprite.rect.x = 100+(i*150)
+                player1.hand[i].cardsprite.rect.y = 350+(i*10)
+                player1.hand[i].artsprite.rect.x = 100+(i*150)+3
+                player1.hand[i].artsprite.rect.y = 350+(i*10)+3
 
     # add all card sprites to spritegroup
     screen.fill((200,200,200))
     for i in range(5):
-        sprites_group.add(player1hand[i].cardsprite)
-        sprites_group.add(player1hand[i].artsprite)
+        sprites_group.add(player1.hand[i].cardsprite)
+        sprites_group.add(player1.hand[i].artsprite)
         sprites_group.update()
         sprites_group.draw(screen)
-        font_description.render_to(screen, (player1hand[i].cardsprite.rect.x+20, player1hand[i].cardsprite.rect.y+210), player1hand[i].description, (0, 0, 0))
-        font_stamcost.render_to(screen, (player1hand[i].cardsprite.rect.x+10, player1hand[i].cardsprite.rect.y+10), str(player1hand[i].basecost), (0, 255, 0))
-        font_cardname.render_to(screen, (player1hand[i].cardsprite.rect.x+5, player1hand[i].cardsprite.rect.y+180), player1hand[i].name, (0, 0, 0))
+        font_description.render_to(screen, (player1.hand[i].cardsprite.rect.x+20, player1.hand[i].cardsprite.rect.y+210), player1.hand[i].description, (0, 0, 0))
+        font_stamcost.render_to(screen, (player1.hand[i].cardsprite.rect.x+10, player1.hand[i].cardsprite.rect.y+10), str(player1.hand[i].basecost), (0, 255, 0))
+        font_cardname.render_to(screen, (player1.hand[i].cardsprite.rect.x+5, player1.hand[i].cardsprite.rect.y+180), player1.hand[i].name, (0, 0, 0))
         sprites_group.empty()
 
-    #for i in range(len(player1hand)):
+    #for i in range(len(player1.hand)):
 
     # updating screen
     pygame.display.flip()
