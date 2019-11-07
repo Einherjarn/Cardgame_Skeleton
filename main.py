@@ -124,14 +124,21 @@ while Continue:
         if event.type == pygame.QUIT:
             Continue = False
     # all primary game logic goes under here, before the rendering stuff
+    # placeholder draw 5 cards if hand empty
     if player1turn:
-        for i in range(5):
-            if player1deck[i]:
-                player1deck[i].cardsprite.rect.x = 100+(i*150)
-                player1deck[i].cardsprite.rect.y = 350+(i*10)
-                player1deck[i].artsprite.rect.x = 100+(i*150)+3
-                player1deck[i].artsprite.rect.y = 350+(i*10)+3
+        if (len(player1hand)==0):
+            for i in range(5):
                 player1hand.append(player1deck[i])
+    # rendering stuff
+    if player1turn:
+        for i in range(len(player1hand)):
+            if player1hand[i]:
+                print(len(player1hand))
+                player1hand[i].cardsprite.rect.x = 100+(i*150)
+                player1hand[i].cardsprite.rect.y = 350+(i*10)
+                player1hand[i].artsprite.rect.x = 100+(i*150)+3
+                player1hand[i].artsprite.rect.y = 350+(i*10)+3
+
     # add all card sprites to spritegroup
     screen.fill((200,200,200))
     for i in range(5):
