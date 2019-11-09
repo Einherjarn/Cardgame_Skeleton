@@ -1,0 +1,8 @@
+hit1[xxxxxxx]: deal one damage to specified spot
+hit2[xxxxxxx]: like above but lethal damage
+bind: prompt user of card to deny a target zone from opponent
+move+x: increase distance by x
+move-x: decrease distance by x
+discardx: force target to discard x cards
+drawx: target draws x cards
+faint: prompt user to choose a target zone, target commits an attack to target zone if sufficient mana
