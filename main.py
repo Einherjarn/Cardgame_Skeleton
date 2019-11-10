@@ -16,40 +16,39 @@ sprites_group = pygame.sprite.Group()
 Continue = True
 clock = pygame.time.Clock()
 
-# placeholder example cards
-"""
-card1 = Card_base()
-card1.rect.x = 50
-card1.rect.y = 150
-card1.basecost = 10
-card1.description = "test custom description"
-cardlist.append(card1)
-
-card2 = Card_base()
-card2.rect.x = 350
-card2.rect.y = 150
-cardlist.append(card2)
-"""
-
 player1 = Player("dev_testing_deck_longsword")
 player2 = Player("dev_testing_deck_longsword")
 stack = []
-nextPhase = False
+
+def resolve(card):
+    pass
+    #stub
+
+def play_card(player):
+    pass
 
 # Main Program Logic Loop
 while Continue:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             Continue = False
-    # all primary game logic goes under here, before the rendering stuff
-    try:
-        player
-    except NameError:
-        player = player1
-        player1.draw(5)
-        player2.draw(5)
-    if (len(player.hand) < 9):
-        player.draw(1)
+        else:     
+        # all primary game logic goes under here, before the rendering stuff
+            #start of exchange, current player undefined, so we do startup stuff.
+            try:
+                player
+            except NameError:
+                player = player1
+                player1.draw(5)
+                player1.setStance()
+                player2.draw(5)
+                player2.setStance()
+            #turn begins
+            #draw if hand not full
+            if (len(player.hand) < 9):
+                player.draw(1)
+            #ask current player for card to play, and resolve it
+            resolve(play_card(player))
     # rendering stuff
     for i in range(len(player.hand)):
         if player.hand[i]:

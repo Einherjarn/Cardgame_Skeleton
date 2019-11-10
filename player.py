@@ -137,3 +137,6 @@ class Player:
     """set hit to index n to true"""
     def setHits(self, n):
         hits[n] = True
+
+    def setStance(self):
+        pass
