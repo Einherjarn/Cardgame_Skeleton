@@ -40,11 +40,13 @@ while Continue:
         if event.type == pygame.QUIT:
             Continue = False
     # all primary game logic goes under here, before the rendering stuff
-    if not player:
+    try:
+        player
+    except NameError:
         player = player1
         player1.draw(5)
         player2.draw(5)
-    if not player.hand[9]:
+    if (len(player.hand) < 9):
         player.draw(1)
     # rendering stuff
     for i in range(len(player.hand)):
