@@ -47,7 +47,7 @@ def play_card(player):
         print(card_on_mouse(player).name)
         return card_on_mouse(player)
         
-
+# rendering stuff
 def render_card(card):
     sprites_group.add(card.cardsprite)
     sprites_group.add(card.artsprite)
@@ -59,7 +59,6 @@ def render_card(card):
     sprites_group.empty()
 
 def render_player(player):
-    # rendering stuff
     for i in range(len(player.hand)):
         if player.hand[i]:
             player.hand[i].cardsprite.rect.x = 100+(i*150)
