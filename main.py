@@ -31,7 +31,6 @@ card2.rect.y = 150
 cardlist.append(card2)
 """
 
-player1turn = True
 player1 = Player("dev_testing_deck_longsword")
 player2 = Player("dev_testing_deck_longsword")
 stack = []
@@ -42,72 +41,33 @@ while Continue:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             Continue = False
-        else:
-            #start of exchange
-            player1.draw(5)
-            player2.draw(5)
-            #setStance should render stance cards
-            #prompt player to choose stance
-            #and play it face down
-            player1.setStance()
-            player2.setStance()
-            #reveal both stances here
-            inTurn = player2
-            if player1turn:
-                inTurn = player1
-            #turn begins
-            #draw phase
-            while len(inTurn.hand) < 5:
-                inTurn.draw(1)
-            while nextPhase === False:
-                #out of range phase
-                #once player plays a card it goes into
-                #cardPlayed variable
-                resolve(cardPlayed)
-                #if player hits next phase, nextPhase = True
-            nextPhase = False
-            while nextPhase === False:
-                #within range
-                #prompt inTurn player to play a card (offense)
-                #prompt the other player to play a card (defence)
-                resolve(offense, defense)
-
-
-
-def resolve(card):
-    pass
-    #stub
-
-def resolve(offense, defence):
-    pass
-    #stub
-
-
-
-
     # all primary game logic goes under here, before the rendering stuff
-    # placeholder draw 5 cards if hand empty
-    if player1turn:
+    try:
+        player
+    except NameError:
+        player = player1
         player1.draw(5)
+        player2.draw(5)
+    if (len(player.hand) < 9):
+        player.draw(1)
     # rendering stuff
-    if player1turn:
-        for i in range(len(player1.hand)):
-            if player1.hand[i]:
-                player1.hand[i].cardsprite.rect.x = 100+(i*150)
-                player1.hand[i].cardsprite.rect.y = 350+(i*10)
-                player1.hand[i].artsprite.rect.x = 100+(i*150)+3
-                player1.hand[i].artsprite.rect.y = 350+(i*10)+3
+    for i in range(len(player.hand)):
+        if player.hand[i]:
+            player.hand[i].cardsprite.rect.x = 100+(i*150)
+            player.hand[i].cardsprite.rect.y = 350+(i*10)
+            player.hand[i].artsprite.rect.x = 100+(i*150)+3
+            player.hand[i].artsprite.rect.y = 350+(i*10)+3
 
     # add all card sprites to spritegroup
     screen.fill((200,200,200))
     for i in range(5):
-        sprites_group.add(player1.hand[i].cardsprite)
-        sprites_group.add(player1.hand[i].artsprite)
+        sprites_group.add(player.hand[i].cardsprite)
+        sprites_group.add(player.hand[i].artsprite)
         sprites_group.update()
         sprites_group.draw(screen)
-        font_description.render_to(screen, (player1.hand[i].cardsprite.rect.x+20, player1.hand[i].cardsprite.rect.y+210), player1.hand[i].description, (0, 0, 0))
-        font_stamcost.render_to(screen, (player1.hand[i].cardsprite.rect.x+10, player1.hand[i].cardsprite.rect.y+10), str(player1.hand[i].basecost), (0, 255, 0))
-        font_cardname.render_to(screen, (player1.hand[i].cardsprite.rect.x+5, player1.hand[i].cardsprite.rect.y+180), player1.hand[i].name, (0, 0, 0))
+        font_description.render_to(screen, (player.hand[i].cardsprite.rect.x+20, player.hand[i].cardsprite.rect.y+210), player.hand[i].description, (0, 0, 0))
+        font_stamcost.render_to(screen, (player.hand[i].cardsprite.rect.x+10, player.hand[i].cardsprite.rect.y+10), str(player.hand[i].basecost), (0, 255, 0))
+        font_cardname.render_to(screen, (player.hand[i].cardsprite.rect.x+5, player.hand[i].cardsprite.rect.y+180), player.hand[i].name, (0, 0, 0))
         sprites_group.empty()
 
     #for i in range(len(player1.hand)):
