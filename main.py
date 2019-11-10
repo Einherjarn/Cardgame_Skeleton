@@ -35,6 +35,7 @@ player1turn = True
 player1 = Player("dev_testing_deck_longsword")
 player2 = Player("dev_testing_deck_longsword")
 stack = []
+nextPhase = False
 
 # Main Program Logic Loop
 while Continue:
@@ -58,10 +59,30 @@ while Continue:
             #draw phase
             while len(inTurn.hand) < 5:
                 inTurn.draw(1)
-            #stance setting phase
-            else:
-                #if cardIsPlayed:
-                #   offensive = cardThatWasPlayer
+            while nextPhase === False:
+                #out of range phase
+                #once player plays a card it goes into
+                #cardPlayed variable
+                resolve(cardPlayed)
+                #if player hits next phase, nextPhase = True
+            nextPhase = False
+            while nextPhase === False:
+                #within range
+                #prompt inTurn player to play a card (offense)
+                #prompt the other player to play a card (defence)
+                resolve(offense, defense)
+
+
+
+def resolve(card):
+    pass
+    #stub
+
+def resolve(offense, defence):
+    pass
+    #stub
+
+
 
 
     # all primary game logic goes under here, before the rendering stuff
