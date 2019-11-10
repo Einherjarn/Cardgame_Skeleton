@@ -31,7 +31,6 @@ card2.rect.y = 150
 cardlist.append(card2)
 """
 
-player1turn = True
 player1 = Player("dev_testing_deck_longsword")
 player2 = Player("dev_testing_deck_longsword")
 
@@ -41,12 +40,12 @@ while Continue:
         if event.type == pygame.QUIT:
             Continue = False
     # all primary game logic goes under here, before the rendering stuff
-    if player1turn:
+    if not player:
         player = player1
-    else:
-        player = player2
-    # placeholder draw 5 cards if hand empty
-    player.draw(5)
+        player1.draw(5)
+        player2.draw(5)
+    if not player.hand[9]:
+        player.draw(1)
     # rendering stuff
     for i in range(len(player.hand)):
         if player.hand[i]:
