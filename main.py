@@ -49,28 +49,6 @@ def play_card(player):
         
 
 def render_player(player):
-# Main Program Logic Loop
-while Continue:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            Continue = False
-        else:
-        # all primary game logic goes under here, before the rendering stuff
-            #start of exchange, current player undefined, so we do startup stuff.
-            try:
-                player
-            except NameError:
-                player = player1
-                player1.draw(5)
-                player1.setStance()
-                player2.draw(5)
-                player2.setStance()
-            #turn begins
-            #draw if hand not full
-            if (len(player.hand) < 9):
-                player.draw(1)
-            #ask current player for card to play, and resolve it
-            resolve(play_card(player))
     # rendering stuff
     for i in range(len(player.hand)):
         if player.hand[i]:
