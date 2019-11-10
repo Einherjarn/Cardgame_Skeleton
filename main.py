@@ -9,10 +9,13 @@ from player import Player
 pygame.init()
 size = (960,720)
 screen = pygame.display.set_mode(size)
+
+font_cardname = pygame.freetype.Font(None, 15)
 font_description = pygame.freetype.Font(None, 18)
 font_stamcost = pygame.freetype.Font(None, 36)
 font_stamina = pygame.freetype.Font(None, 42)
-font_cardname = pygame.freetype.Font(None, 15)
+font_cardselection = pygame.freetype.Font(None, 42)
+
 pygame.display.set_caption("cardgame skeleton")
 sprites_group = pygame.sprite.Group()
 Continue = True
@@ -27,7 +30,7 @@ def resolve(card):
     #stub
 
 def card_on_mouse(player):
-    lowdist = 999
+    lowdist = 9999
     for i in range(len(player.hand)):
         if player.hand[i]:
             (x,y) = pygame.mouse.get_pos()
@@ -35,17 +38,14 @@ def card_on_mouse(player):
             if(dist < lowdist):
                 lowdist = dist
                 card = player.hand[i]
-                print(card.name)
     return card
 
 def play_card(player):
     render_player(player)
     (b1,b2,b3) = pygame.mouse.get_pressed()
-    update = clock.get_time()
-    while(not(b1) and (clock.get_time() > update+100)):
-        font_description.render_to(screen, (360,10), card_on_mouse(player).name, (0, 0, 0))
-        update = clock.get_time
-    return card_on_mouse(player)
+    if(b1 > 0):
+        print(card_on_mouse(player).name)
+        return card_on_mouse(player)
         
 
 def render_player(player):
@@ -71,6 +71,7 @@ def render_player(player):
         
     # individual screen elements
     font_stamina.render_to(screen, (10,10), str(player.stamina), (0, 255, 0))
+    font_cardselection.render_to(screen, (80,10), card_on_mouse(player).name, (0, 0, 0))
 
     # updating screen
     pygame.display.flip()   
