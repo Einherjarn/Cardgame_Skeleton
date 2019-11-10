@@ -1,3 +1,4 @@
+import math
 import pygame
 import pygame.freetype
 from sprite import Sprite
@@ -10,6 +11,7 @@ size = (960,720)
 screen = pygame.display.set_mode(size)
 font_description = pygame.freetype.Font(None, 18)
 font_stamcost = pygame.freetype.Font(None, 36)
+font_stamina = pygame.freetype.Font(None, 42)
 font_cardname = pygame.freetype.Font(None, 15)
 pygame.display.set_caption("cardgame skeleton")
 sprites_group = pygame.sprite.Group()
@@ -24,31 +26,29 @@ def resolve(card):
     pass
     #stub
 
-def play_card(player):
-    pass
+def card_on_mouse(player):
+    lowdist = 999
+    for i in range(len(player.hand)):
+        if player.hand[i]:
+            (x,y) = pygame.mouse.get_pos()
+            dist = math.sqrt( ((x-(player.hand[i].cardsprite.rect.x+130))**2)+((y-player.hand[i].cardsprite.rect.y)**2) )
+            if(dist < lowdist):
+                lowdist = dist
+                card = player.hand[i]
+                print(card.name)
+    return card
 
-# Main Program Logic Loop
-while Continue:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            Continue = False
-        else:     
-        # all primary game logic goes under here, before the rendering stuff
-            #start of exchange, current player undefined, so we do startup stuff.
-            try:
-                player
-            except NameError:
-                player = player1
-                player1.draw(5)
-                player1.setStance()
-                player2.draw(5)
-                player2.setStance()
-            #turn begins
-            #draw if hand not full
-            if (len(player.hand) < 9):
-                player.draw(1)
-            #ask current player for card to play, and resolve it
-            resolve(play_card(player))
+def play_card(player):
+    render_player(player)
+    (b1,b2,b3) = pygame.mouse.get_pressed()
+    update = clock.get_time()
+    while(not(b1) and (clock.get_time() > update+100)):
+        font_description.render_to(screen, (360,10), card_on_mouse(player).name, (0, 0, 0))
+        update = clock.get_time
+    return card_on_mouse(player)
+        
+
+def render_player(player):
     # rendering stuff
     for i in range(len(player.hand)):
         if player.hand[i]:
@@ -68,12 +68,36 @@ while Continue:
         font_stamcost.render_to(screen, (player.hand[i].cardsprite.rect.x+10, player.hand[i].cardsprite.rect.y+10), str(player.hand[i].basecost), (0, 255, 0))
         font_cardname.render_to(screen, (player.hand[i].cardsprite.rect.x+5, player.hand[i].cardsprite.rect.y+180), player.hand[i].name, (0, 0, 0))
         sprites_group.empty()
-
-    #for i in range(len(player1.hand)):
+        
+    # individual screen elements
+    font_stamina.render_to(screen, (10,10), str(player.stamina), (0, 255, 0))
 
     # updating screen
-    pygame.display.flip()
+    pygame.display.flip()   
 
+# Main Program Logic Loop
+while Continue:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            Continue = False
+        else:     
+        # all primary game logic goes under here
+            #start of exchange, current player undefined, so we do startup stuff.
+            try:
+                player
+            except NameError:
+                player = player1
+                player1.draw(5)
+                player1.setStance()
+                player2.draw(5)
+                player2.setStance()
+            #turn begins
+            #draw if hand not full
+            if (len(player.hand) < 9):
+                player.draw(1)
+            #ask current player for card to play, and resolve it
+            resolve(play_card(player))
+    render_player(player)
     # 60 fps glorious pc gaming masterrace
     clock.tick(60)
 # out of mainloop, close dis
