@@ -48,6 +48,16 @@ def play_card(player):
         return card_on_mouse(player)
         
 
+def render_card(card):
+    sprites_group.add(card.cardsprite)
+    sprites_group.add(card.artsprite)
+    sprites_group.update()
+    sprites_group.draw(screen)
+    font_description.render_to(screen, (card.cardsprite.rect.x+20, card.cardsprite.rect.y+210), card.description, (0, 0, 0))
+    font_stamcost.render_to(screen, (card.cardsprite.rect.x+10, card.cardsprite.rect.y+10), str(card.basecost), (0, 255, 0))
+    font_cardname.render_to(screen, (card.cardsprite.rect.x+5, card.cardsprite.rect.y+180), card.name, (0, 0, 0))
+    sprites_group.empty()
+
 def render_player(player):
     # rendering stuff
     for i in range(len(player.hand)):
@@ -60,18 +70,14 @@ def render_player(player):
     # add all card sprites to spritegroup
     screen.fill((200,200,200))
     for i in range(5):
-        sprites_group.add(player.hand[i].cardsprite)
-        sprites_group.add(player.hand[i].artsprite)
-        sprites_group.update()
-        sprites_group.draw(screen)
-        font_description.render_to(screen, (player.hand[i].cardsprite.rect.x+20, player.hand[i].cardsprite.rect.y+210), player.hand[i].description, (0, 0, 0))
-        font_stamcost.render_to(screen, (player.hand[i].cardsprite.rect.x+10, player.hand[i].cardsprite.rect.y+10), str(player.hand[i].basecost), (0, 255, 0))
-        font_cardname.render_to(screen, (player.hand[i].cardsprite.rect.x+5, player.hand[i].cardsprite.rect.y+180), player.hand[i].name, (0, 0, 0))
-        sprites_group.empty()
+        render_card(player.hand[i])
         
     # individual screen elements
     font_stamina.render_to(screen, (10,10), str(player.stamina), (0, 255, 0))
-    font_cardselection.render_to(screen, (80,10), card_on_mouse(player).name, (0, 0, 0))
+    cardonmouse = card_on_mouse(player) 
+    if (cardonmouse):
+        font_cardselection.render_to(screen, (80,10), cardonmouse.name, (0, 0, 0))
+        render_card(cardonmouse)
 
     # updating screen
     pygame.display.flip()   
