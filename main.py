@@ -32,7 +32,7 @@ while Continue:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             Continue = False
-        else:     
+        else:
         # all primary game logic goes under here, before the rendering stuff
             #start of exchange, current player undefined, so we do startup stuff.
             try:
