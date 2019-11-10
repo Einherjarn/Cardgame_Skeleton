@@ -3,5 +3,9 @@ attack_strike
 attack_strike
 attack_strike
 attack_strike
+defend_block
+defend_block
+defend_block
+defend_block
 stance_dev_ready
 end_deck

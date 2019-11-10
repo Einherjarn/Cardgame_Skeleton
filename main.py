@@ -68,7 +68,7 @@ def render_player(player):
 
     # add all card sprites to spritegroup
     screen.fill((200,200,200))
-    for i in range(5):
+    for i in range(len(player.hand)):
         render_card(player.hand[i])
         
     # individual screen elements

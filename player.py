@@ -106,10 +106,10 @@ class Player:
     def draw(self, n):
         if len(self.deck) >= n:
             for i in range(n):
-                self.hand.append(self.deck.pop())
+                self.hand.append(self.deck.pop(i))
         else:
             for i in range(len(self.deck)):
-                self.hand.append(self.deck.pop())
+                self.hand.append(self.deck.pop(i))
     """set stat m to n where n =/= 0"""
     def setStat(self,n,m):
         stats[m] = n
