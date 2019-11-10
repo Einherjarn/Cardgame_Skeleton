@@ -49,13 +49,13 @@ def load_card(name, card):
                         newdesc +=" "
                     else:
                         newdesc +=i
-                
+
                 card.description = newdesc
                 #if there are any modifiers
                 for i in range(0,len(line)-34,2):
                     card.modifiers.append(line[34+i])
                     card.modifiers.append(line[34+i+1])
-    
+
 
 # loads deck of given name into given list
 def load_deck(name, deck):
@@ -63,10 +63,10 @@ def load_deck(name, deck):
         f= open("deck_data.txt", "r")
         stuff = f.readlines()
         f.close()
-        
+
         found = False
         cardnames = []
-        
+
         for i in stuff:
             if found:
                 if i.strip()!="end_deck":
@@ -100,6 +100,7 @@ class Player:
         self.stamina = 10
         """Force player to choose a stance, then put stance here"""
         self.stance = None
+        self.isTurn = False
 
     """draw n cards from deck"""
     def draw(self, n):

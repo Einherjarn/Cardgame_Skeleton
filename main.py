@@ -34,12 +34,36 @@ cardlist.append(card2)
 player1turn = True
 player1 = Player("dev_testing_deck_longsword")
 player2 = Player("dev_testing_deck_longsword")
+stack = []
 
 # Main Program Logic Loop
 while Continue:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             Continue = False
+        else:
+            #start of exchange
+            player1.draw(5)
+            player2.draw(5)
+            #setStance should render stance cards
+            #prompt player to choose stance
+            #and play it face down
+            player1.setStance()
+            player2.setStance()
+            #reveal both stances here
+            inTurn = player2
+            if player1turn:
+                inTurn = player1
+            #turn begins
+            #draw phase
+            while len(inTurn.hand) < 5:
+                inTurn.draw(1)
+            #stance setting phase
+            else:
+                #if cardIsPlayed:
+                #   offensive = cardThatWasPlayer
+
+
     # all primary game logic goes under here, before the rendering stuff
     if player1turn:
         player = player1
