@@ -28,18 +28,7 @@ clock = pygame.time.Clock()
 player1 = Player("dev_testing_deck_longsword", "player 1")
 player2 = Player("dev_testing_deck_longsword", "player 2")
 initiative = None
-opener = None
-
-def card_on_mouse(player):
-    lowdist = 9999
-    for i in range(len(player.hand)):
-        if player.hand[i]:
-            (x,y) = pygame.mouse.get_pos()
-            dist = math.sqrt( ((x-(player.hand[i].cardsprite.rect.x+130))**2)+((y-player.hand[i].cardsprite.rect.y-157)**2) )
-            if(dist < lowdist):
-                lowdist = dist
-                card = player.hand[i]
-    return card
+opener = None   
 
 def run_arbitrary(name, args):
     """for i in range(len(args)):

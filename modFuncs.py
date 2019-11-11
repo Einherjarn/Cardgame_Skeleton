@@ -1,9 +1,22 @@
+import math
+import pygame
 from card_base import Card_base
 from player import Player
 from random import seed
 from random import randint
-# first argument player, 2nd last and last arguments player1, player2
 
+def card_on_mouse(player):
+    lowdist = 9999
+    for i in range(len(player.hand)):
+        if player.hand[i]:
+            (x,y) = pygame.mouse.get_pos()
+            dist = math.sqrt( ((x-(player.hand[i].cardsprite.rect.x+130))**2)+((y-player.hand[i].cardsprite.rect.y-157)**2) )
+            if(dist < lowdist):
+                lowdist = dist
+                card = player.hand[i]
+    return card
+
+# first argument player, 2nd last and last arguments player1, player2
 def drawSelf(player, n, player1, player2):
     if(player==player1):
         target = player1
