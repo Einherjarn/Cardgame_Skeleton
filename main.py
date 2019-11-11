@@ -171,7 +171,14 @@ while Continue:
                     print("resolving exchange..")
                     for i in range(len(opponent.stack)):
                         resolve(opener, opponent, opener.stack[i], opponent.stack[i])
+                    # reset exchange stuff
+                    opener.stack = []
+                    opponent.stack = []
+                    opener = None
+                    opponent = None
                 player = hotseat(player)
+                if(opener == None):
+                    player = initiative
                 
     render_player(player)
     # 60 fps glorious pc gaming masterrace
