@@ -125,6 +125,8 @@ def resolve(attacker, defender, attack, counter):
         result[i] = (counter.defend[i] - attack.power[i])
     for i in range(len(result)):
         defender.health[i] += result[i]
+    if(defender.health[0] <= 0 or defender.health[2] <= 0 or defender.health[5] <= 0):
+        print("debug_wincondition: " +defender.name + "has died, " + attacker.name + " wins!")
 
 # Main Program Logic Loop
 while Continue:
@@ -156,20 +158,19 @@ while Continue:
                 if((initiative != player and card.take_initiative == True) or (initiative == player and card.take_initiative == True and opener != player)):
                     # took initiative from opponent, now we evaluate the exchange
                     initiative = player
-                    print(initiative.name)
                     if opener == player1:
                         opponent = player2
                     else:
                         opponent = player1
                     # evaluate each attack of the opener against defense used by opponent
                     print("resolving exchange..")
-                    print("stacksizes: " + str(len(opener.stack)) + ", " + str(len(opponent.stack)))
+                    #print("stacksizes: " + str(len(opener.stack)) + ", " + str(len(opponent.stack)))
                     for i in range(len(opener.stack)):
-                        print("resolving: opener[" + str(i) + "], opponent[" + str(i) + "]")
+                        #print("resolving: opener[" + str(i) + "], opponent[" + str(i) + "]")
                         resolve(opener, opponent, opener.stack[i], opponent.stack[i])
-                        if(i <= (len(opener.stack))):
-                            print("resolving: opponent[" + str(i) + "], opener[" + str(i) + "]")
-                            resolve(opponent, opener, opponent.stack[i], opener.stack[i])
+                        if(i < (len(opener.stack)-1) and (len(opener.stack) > 1)):
+                            #print("resolving: opponent[" + str(i) + "], opener[" + str(i+1) + "]")
+                            resolve(opponent, opener, opponent.stack[i], opener.stack[i+1])
                     # swap roles, leave the last action of the opponent on his (now opener) stack
                     opener.stack = []
                     leftover = opponent.stack[len(opponent.stack)-1]
