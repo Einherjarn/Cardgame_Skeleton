@@ -5,24 +5,25 @@ from player import Player
 from random import seed
 from random import randint
 
-def card_on_mouse(player):
-    lowdist = 9999
-    for i in range(len(player.hand)):
-        if player.hand[i]:
-            (x,y) = pygame.mouse.get_pos()
-            dist = math.sqrt( ((x-(player.hand[i].cardsprite.rect.x+130))**2)+((y-player.hand[i].cardsprite.rect.y-157)**2) )
-            if(dist < lowdist):
-                lowdist = dist
-                card = player.hand[i]
-    return card
-
 # first argument player, 2nd last and last arguments player1, player2
 def drawSelf(player, n, player1, player2):
-    if(player==player1):
-        target = player1
-    else:
-        target = player2
-    target.draw(n)
+    player.draw(n)
+
+def discardSelf(player, n, player1, player2):
+    player.discard.append(player.hand.pop(n))
+
+"""def discardChoiceSelf(player, n, player1, player2):
+    for i in range(n):
+        print("CHOOSE DISCARD:")
+        card = card_on_mouse(player)
+        player.discard.append(card)
+        player.hand.pop(player.hand.index(card))
+        print("discarded " + card.name)"""
+
+def discardRandomSelf(player, n, player1, player2):
+    maxval = len(player.hand)-1
+    for i in range(n):
+        discardSelf(player, random.randint(0, maxval))
 
 def drawOpp(player, n, player1, player2):
     if(player==player1):
@@ -31,28 +32,12 @@ def drawOpp(player, n, player1, player2):
         target = player1
     target.draw(n)
 
-def discardSelf(player, n, player1, player2):
-    if(player==player1):
-        target = player1
-    else:
-        target = player2
-    target.discard.append(target.hand.pop(n))
-
 def discardOpp(player, n, player1, player2):
     if(player==player1):
         target = player2
     else:
         target = player1
     target.discard.append(target.hand.pop(n))
-
-def discardRandomSelf(player, n, player1, player2):
-    if(player==player1):
-        target = player1
-    else:
-        target = player2
-    maxval = len(target.hand)-1
-    for i in range(n):
-        discardSelf(player, random.randint(0, maxval))
 
 def discardRandomOpp(player, n, player1, player2):
     if(player==player1):

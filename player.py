@@ -1,4 +1,5 @@
 import pygame
+import random
 import pygame.freetype
 from sprite import Sprite
 from card_base import Card_base
@@ -144,8 +145,8 @@ class Player:
         return stats[n]
 
     def shuffle(self):
-        r=random.SystemRandom
-        r.shuffle(hand)
+        rng = random.SystemRandom()
+        random.shuffle(self.deck, rng.random)
 
     """discard a card at index i"""
     def discard(self, i):
