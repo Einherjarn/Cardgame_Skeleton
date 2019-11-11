@@ -104,8 +104,8 @@ def load_deck(name, deck, player):
             deck.append(Card_base())
             load_card(cardnames[i], deck[i], player)
         
-        for i in deck:
-            print(i.name)
+        """for i in deck:
+            print(i.name)"""
         
 
 
