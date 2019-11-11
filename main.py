@@ -1,6 +1,8 @@
 import math
+import sys
 import pygame
 import pygame.freetype
+from modFuncs import *
 from sprite import Sprite
 from card_base import Card_base
 from player import Player
@@ -39,12 +41,32 @@ def card_on_mouse(player):
                 card = player.hand[i]
     return card
 
+def run_arbitrary(name, args):
+    """for i in range(len(args)):
+        print(str(args[i]))"""
+    possibles = globals().copy()
+    possibles.update(locals())
+    func = possibles.get(name)
+    if not func:
+         raise NotImplementedError("Function %s not implemented" % name)
+    func(*args)
+
 def play_card(player):
     render_player(player)
     (b1,b2,b3) = pygame.mouse.get_pressed()
     if(b1 > 0):
-        print(card_on_mouse(player).name)
-        return card_on_mouse(player)
+        card = card_on_mouse(player)
+        # find and execute possible on-play modifiers
+        for i in range(len(card.modifiers)):
+            if(card.modifiers[i][1] == "OnPlay"):
+                args = []
+                for j in range(2,len(card.modifiers[i])):
+                    args.append(card.modifiers[i][j])
+                args.append(player1)
+                args.append(player2)
+                run_arbitrary(card.modifiers[i][0],args)
+        print(card.name)
+        return card
         
 # rendering stuff
 def render_card(card):
@@ -127,6 +149,9 @@ def resolve(attacker, defender, attack, counter):
         defender.health[i] += result[i]
     if(defender.health[0] <= 0 or defender.health[2] <= 0 or defender.health[5] <= 0):
         print("debug_wincondition: " +defender.name + "has died, " + attacker.name + " wins!")
+        pygame.display.quit()
+        pygame.quit()
+        sys.exit()
 
 # Main Program Logic Loop
 while Continue:
@@ -145,10 +170,6 @@ while Continue:
                 player1.setStance()
                 player2.draw(5)
                 player2.setStance()
-            # turn begins
-            # draw if hand not full
-            if (len(player.hand) < 10):
-                player.draw(1)
             # ask current player for card
             card = play_card(player)
             if (card):
@@ -182,7 +203,10 @@ while Continue:
                         opponent = player2
                         opener = player1
                     opener.stack.append(leftover)
-                    
+
+                # draw if hand not full
+                if (len(player.hand) < 10):
+                    player.draw(1)    
                 player = hotseat(player)
                 if(opener == None):
                     player = initiative

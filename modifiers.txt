@@ -1,7 +1,6 @@
 attack_strike
-testdraw OnPlay 1
-testchoosediscard OnPlay 1
-testdiscardenemy OnHit 1
+drawSelf OnPlay 1
+discardRandomOpp OnHit 1
 end
 
 

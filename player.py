@@ -74,7 +74,7 @@ def load_card(name, card, player):
                     newmod.append(line[1].strip())
                     newmod.append(player)
                     for l in range(2,len(line)):
-                        newmod.append(line[l].strip())
+                        newmod.append(int(line[l].strip()))
                     card.modifiers.append(newmod)
         """for i in range(len(card.modifiers)):
             for j in range(len(card.modifiers[i])):
@@ -130,10 +130,10 @@ class Player:
 
     """draw n cards from deck"""
     def draw(self, n):
-        if len(self.deck) >= n:
+        if(len(self.deck) >= n):
             for i in range(n):
                 self.hand.append(self.deck.pop())
-        else:
+        elif(len(self.deck) > 0):
             for i in range(len(self.deck)):
                 self.hand.append(self.deck.pop())
     """set stat m to n where n =/= 0"""
