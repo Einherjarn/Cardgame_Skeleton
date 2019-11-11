@@ -12,6 +12,7 @@ def strbool(s):
 # loads card of given name into actual card object
 def load_card(name, card):
     if name:
+        # card parser
         f= open("card_data.txt", "r")
         stuff = f.readlines()
         f.close()
@@ -52,9 +53,31 @@ def load_card(name, card):
 
                 card.description = newdesc
                 #if there are any modifiers
-                for i in range(0,len(line)-34,2):
-                    card.modifiers.append(line[34+i])
-                    card.modifiers.append(line[34+i+1])
+                #leaving these here for posterity
+                #for i in range(0,len(line)-34,2):
+                #    card.modifiers.append(line[34+i])
+                #    card.modifiers.append(line[34+i+1])
+                
+        # modifier parser
+        f=open("modifiers.txt")
+        stuff = f.readlines()
+        f.close()
+        for i in range(len(stuff)):
+            if(stuff[i].strip() == name):
+                for j in range(i,len(stuff)):
+                    if(stuff[j].strip()=="end"):
+                        end = j
+                for k in range(i+1,end):
+                    line = stuff[k].split()
+                    newmod = []
+                    for l in range(len(line)):
+                        newmod.append(line[l].strip())
+                    card.modifiers.append(newmod)
+        """for i in range(len(card.modifiers)):
+            for j in range(len(card.modifiers[i])):
+                print(card.modifiers[i][j])"""
+
+
 
 
 # loads deck of given name into given list
