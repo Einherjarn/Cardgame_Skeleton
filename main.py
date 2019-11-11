@@ -117,11 +117,20 @@ def hotseat(player):
         player = player1
     return player
 
-def resolve(attack, counter):
+def resolve(opener, opponent, attack, counter):
     # head, r-arm, r-torso, r-leg, l-arm, l-torso, l-leg
-    resulthits = [0,0,0,0,0,0,0]
-    pass
-    
+    result_opener = [0,0,0,0,0,0,0]
+    result_opponent = [0,0,0,0,0,0,0]
+
+    for i in range(len(attack.power)):
+        result_opponent[i] = (counter.defend[i] - attack.power[i])
+    for i in range(len(counter.power)):
+        result_opener[i] = (attack.defend[i] - counter.power[i])
+        
+    for i in range(len(result_opponent)):
+        opponent.health[i] += result_opponent[i]
+    for i in range(len(result_opener)):
+        opener.health[i] += result_opener[i]
 
 # Main Program Logic Loop
 while Continue:
@@ -151,6 +160,7 @@ while Continue:
                     opener = player
                 player.stack.append(card)
                 if((initiative != player and card.take_initiative == True) or (initiative == player and card.take_initiative == True and opener != player)):
+                    print("resolving exchange..")
                     # took initiative from opponent, now we evaluate the exchange
                     initiative = player
                     #print(initiative.name)
@@ -160,7 +170,7 @@ while Continue:
                         opponent = player1
                     # evaluate each attack of the opener against defense used by opponent, and then yield turn to player who newly took initiative    
                     for i in range(len(opponent.stack)):
-                        resolve(opener.stack[i], opponent.stack[i])
+                        resolve(opener, opponent, opener.stack[i], opponent.stack[i])
                 player = hotseat(player)
                 
     render_player(player)
