@@ -21,3 +21,8 @@ playcard
             outcome decided
                 call on-outcome modifier functions
                 apply effects on stamina/hp, check for game over
+				
+"""Hits follows the format of
+head, right arm, right torso, right leg, left arm, left torso, left leg"""
+"""stats are
+strength, quickness, foresight and fortitution"""

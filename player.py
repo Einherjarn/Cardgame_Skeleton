@@ -113,11 +113,9 @@ class Player:
     def __init__(self, deckname, playername):
         self.name = playername
         """Hits follows the format of
-        head, right arm, right torso, right leg, left arm,
-        left torso, left leg"""
+        head, right arm, right torso, right leg, left arm, left torso, left leg"""
         self.health = [2,2,2,2,2,2,2]
-        """stats are strength, quickness, foresight and fortitution
-        in that order"""
+        """stats are strength, quickness, foresight and fortitution"""
         self.stats = [0,0,0,0]
         self.deck = []
         load_deck(deckname,self.deck,self)

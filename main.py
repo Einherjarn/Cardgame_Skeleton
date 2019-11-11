@@ -95,13 +95,20 @@ def render_player(player):
     sprites_group.update()
     sprites_group.draw(screen)
     sprites_group.empty()
-    """font_health.render_to(screen, (10,10), str(player.health[]), (255, 0, 0))
-    font_health
-    font_health
-    font_health
-    font_health
-    font_health
-    font_health"""
+    #head
+    font_health.render_to(screen, (55,15), str(player.health[0]), (255, 0, 0))
+    #r-arm
+    font_health.render_to(screen, (10,50), str(player.health[1]), (255, 0, 0))
+    #r-torso
+    font_health.render_to(screen, (40,50), str(player.health[2]), (255, 0, 0))
+    #r-leg
+    font_health.render_to(screen, (40,160), str(player.health[3]), (255, 0, 0))
+    #l-arm
+    font_health.render_to(screen, (100,50), str(player.health[4]), (255, 0, 0))
+    #l-torso
+    font_health.render_to(screen, (70,50), str(player.health[5]), (255, 0, 0))
+    #l-leg
+    font_health.render_to(screen, (70,160), str(player.health[6]), (255, 0, 0))
     
     # updating screen
     pygame.display.flip()   
