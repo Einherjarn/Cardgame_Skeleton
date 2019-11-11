@@ -123,6 +123,7 @@ class Player:
         load_deck(deckname,self.deck,self)
         self.hand = []
         self.discard = []
+        self.stack = []
         """presuming 10 stamina is max"""
         self.stamina = 10
         """Force player to choose a stance, then put stance here"""

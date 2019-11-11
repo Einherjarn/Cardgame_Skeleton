@@ -24,7 +24,8 @@ clock = pygame.time.Clock()
 
 player1 = Player("dev_testing_deck_longsword", "player 1")
 player2 = Player("dev_testing_deck_longsword", "player 2")
-stack = []
+initiative = None
+opener = None
 
 def resolve(card):
     pass
@@ -60,6 +61,7 @@ def render_card(card):
     sprites_group.empty()
 
 def render_player(player):
+    # render cards, in 2 rows if more than 5
     for i in range(len(player.hand)):
         if (player.hand[i] and i < 5):
             player.hand[i].cardsprite.rect.x = 50+(i*150)
@@ -88,6 +90,14 @@ def render_player(player):
     # updating screen
     pygame.display.flip()   
 
+# todo, black graphics transition screen, wait for any input to acknowledge seatswitch
+def hotseat(player):
+    if(player == player1):
+        player = player2
+    else:
+        player = player1
+    return player
+
 # Main Program Logic Loop
 while Continue:
     for event in pygame.event.get():
@@ -95,21 +105,28 @@ while Continue:
             Continue = False
         else:     
         # all primary game logic goes under here
-            #start of exchange, current player undefined, so we do startup stuff.
+            # start of exchange, current player undefined, so we do startup stuff.
             try:
                 player
             except NameError:
                 player = player1
+                initiative = player1
                 player1.draw(5)
                 player1.setStance()
                 player2.draw(5)
                 player2.setStance()
-            #turn begins
-            #draw if hand not full
-            if (len(player.hand) < 9):
+            # turn begins
+            # draw if hand not full
+            if (len(player.hand) < 10):
                 player.draw(1)
-            #ask current player for card to play, and resolve it
-            resolve(play_card(player))
+            # ask current player for card
+            card = play_card(player)
+            if (card):
+                if(opener == None):
+                    opener = player
+                player.stack.append(card)
+                player = hotseat(player)
+                
     render_player(player)
     # 60 fps glorious pc gaming masterrace
     clock.tick(60)
