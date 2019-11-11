@@ -15,6 +15,7 @@ font_description = pygame.freetype.Font(None, 18)
 font_stamcost = pygame.freetype.Font(None, 36)
 font_stamina = pygame.freetype.Font(None, 42)
 font_cardselection = pygame.freetype.Font(None, 42)
+font_playername = pygame.freetype.Font(None, 42)
 
 pygame.display.set_caption("cardgame skeleton")
 sprites_group = pygame.sprite.Group()
@@ -34,7 +35,7 @@ def card_on_mouse(player):
     for i in range(len(player.hand)):
         if player.hand[i]:
             (x,y) = pygame.mouse.get_pos()
-            dist = math.sqrt( ((x-(player.hand[i].cardsprite.rect.x+130))**2)+((y-player.hand[i].cardsprite.rect.y)**2) )
+            dist = math.sqrt( ((x-(player.hand[i].cardsprite.rect.x+130))**2)+((y-player.hand[i].cardsprite.rect.y-157)**2) )
             if(dist < lowdist):
                 lowdist = dist
                 card = player.hand[i]
@@ -60,11 +61,16 @@ def render_card(card):
 
 def render_player(player):
     for i in range(len(player.hand)):
-        if player.hand[i]:
-            player.hand[i].cardsprite.rect.x = 100+(i*150)
-            player.hand[i].cardsprite.rect.y = 350+(i*10)
-            player.hand[i].artsprite.rect.x = 100+(i*150)+3
-            player.hand[i].artsprite.rect.y = 350+(i*10)+3
+        if (player.hand[i] and i < 5):
+            player.hand[i].cardsprite.rect.x = 50+(i*150)
+            player.hand[i].cardsprite.rect.y = 250+(i*10)
+            player.hand[i].artsprite.rect.x = 50+(i*150)+3
+            player.hand[i].artsprite.rect.y = 250+(i*10)+3
+        elif (player.hand[i]):
+            player.hand[i].cardsprite.rect.x = 50+((i-5)*150)
+            player.hand[i].cardsprite.rect.y = 450+((i-5)*10)
+            player.hand[i].artsprite.rect.x = 50+((i-5)*150)+3
+            player.hand[i].artsprite.rect.y = 450+((i-5)*10)+3
 
     # add all card sprites to spritegroup
     screen.fill((200,200,200))
@@ -73,9 +79,10 @@ def render_player(player):
         
     # individual screen elements
     font_stamina.render_to(screen, (10,10), str(player.stamina), (0, 255, 0))
+    font_playername.render_to(screen, (10,50), str(player.name), (0, 0, 0))
     cardonmouse = card_on_mouse(player) 
     if (cardonmouse):
-        font_cardselection.render_to(screen, (80,10), cardonmouse.name, (0, 0, 0))
+        font_cardselection.render_to(screen, (10,100), cardonmouse.name, (0, 0, 0))
         render_card(cardonmouse)
 
     # updating screen
