@@ -100,13 +100,13 @@ def load_deck(name, deck, player):
             if i.strip()==name:
                 found = True
 
-        for i in range(len(cardnames)):
+        for i in range(len(cardnames)-1):
             deck.append(Card_base())
             load_card(cardnames[i], deck[i], player)
-        """
+        
         for i in deck:
-            print(i)
-        """
+            print(i.name)
+        
 
 
 class Player:
@@ -132,10 +132,10 @@ class Player:
     def draw(self, n):
         if len(self.deck) >= n:
             for i in range(n):
-                self.hand.append(self.deck.pop(i))
+                self.hand.append(self.deck.pop())
         else:
             for i in range(len(self.deck)):
-                self.hand.append(self.deck.pop(i))
+                self.hand.append(self.deck.pop())
     """set stat m to n where n =/= 0"""
     def setStat(self,n,m):
         stats[m] = n
