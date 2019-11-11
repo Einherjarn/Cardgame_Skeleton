@@ -57,7 +57,7 @@ def load_card(name, card, player):
                 #for i in range(0,len(line)-34,2):
                 #    card.modifiers.append(line[34+i])
                 #    card.modifiers.append(line[34+i+1])
-                
+
         # modifier parser
         f=open("modifiers.txt")
         stuff = f.readlines()
@@ -103,10 +103,10 @@ def load_deck(name, deck, player):
         for i in range(len(cardnames)-1):
             deck.append(Card_base())
             load_card(cardnames[i], deck[i], player)
-        
+
         """for i in deck:
             print(i.name)"""
-        
+
 
 
 class Player:
@@ -126,6 +126,7 @@ class Player:
         self.stamina = 10
         """Force player to choose a stance, then put stance here"""
         self.stance = None
+        self.invulnerable = [False, False, False, False, False, False, False]
 
     """draw n cards from deck"""
     def draw(self, n):

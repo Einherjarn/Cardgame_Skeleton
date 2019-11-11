@@ -52,4 +52,10 @@ def discardRandomOpp(player, n):
         discardSelf(player, random.randint(0, maxval))
 
 def bind(player):
+    player.invulnerable = promptTargetZone()
+
+def feint(player):
+    return promptTargetZone(player)
+
+def promptTargetZone(player):
     pass
