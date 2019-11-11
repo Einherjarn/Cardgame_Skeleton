@@ -160,15 +160,15 @@ while Continue:
                     opener = player
                 player.stack.append(card)
                 if((initiative != player and card.take_initiative == True) or (initiative == player and card.take_initiative == True and opener != player)):
-                    print("resolving exchange..")
                     # took initiative from opponent, now we evaluate the exchange
                     initiative = player
-                    #print(initiative.name)
+                    print(initiative.name)
                     if opener == player1:
                         opponent = player2
                     else:
                         opponent = player1
-                    # evaluate each attack of the opener against defense used by opponent, and then yield turn to player who newly took initiative    
+                    # evaluate each attack of the opener against defense used by opponent
+                    print("resolving exchange..")
                     for i in range(len(opponent.stack)):
                         resolve(opener, opponent, opener.stack[i], opponent.stack[i])
                 player = hotseat(player)
