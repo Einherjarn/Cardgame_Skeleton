@@ -76,9 +76,9 @@ def load_card(name, card, player):
                     for l in range(2,len(line)):
                         newmod.append(line[l].strip())
                     card.modifiers.append(newmod)
-        for i in range(len(card.modifiers)):
+        """for i in range(len(card.modifiers)):
             for j in range(len(card.modifiers[i])):
-                print(card.modifiers[i][j])
+                print(card.modifiers[i][j])"""
 
 
 
