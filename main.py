@@ -117,20 +117,14 @@ def hotseat(player):
         player = player1
     return player
 
-def resolve(opener, opponent, attack, counter):
+def resolve(attacker, defender, attack, counter):
     # head, r-arm, r-torso, r-leg, l-arm, l-torso, l-leg
-    result_opener = [0,0,0,0,0,0,0]
-    result_opponent = [0,0,0,0,0,0,0]
+    result = [0,0,0,0,0,0,0]
 
     for i in range(len(attack.power)):
-        result_opponent[i] = (counter.defend[i] - attack.power[i])
-    for i in range(len(counter.power)):
-        result_opener[i] = (attack.defend[i] - counter.power[i])
-        
-    for i in range(len(result_opponent)):
-        opponent.health[i] += result_opponent[i]
-    for i in range(len(result_opener)):
-        opener.health[i] += result_opener[i]
+        result[i] = (counter.defend[i] - attack.power[i])
+    for i in range(len(result)):
+        defender.health[i] += result[i]
 
 # Main Program Logic Loop
 while Continue:
@@ -169,13 +163,25 @@ while Continue:
                         opponent = player1
                     # evaluate each attack of the opener against defense used by opponent
                     print("resolving exchange..")
-                    for i in range(len(opponent.stack)):
+                    print("stacksizes: " + str(len(opener.stack)) + ", " + str(len(opponent.stack)))
+                    for i in range(len(opener.stack)):
+                        print("resolving: opener[" + str(i) + "], opponent[" + str(i) + "]")
                         resolve(opener, opponent, opener.stack[i], opponent.stack[i])
-                    # reset exchange stuff
+                        if(i <= (len(opener.stack))):
+                            print("resolving: opponent[" + str(i) + "], opener[" + str(i) + "]")
+                            resolve(opponent, opener, opponent.stack[i], opener.stack[i])
+                    # swap roles, leave the last action of the opponent on his (now opener) stack
                     opener.stack = []
+                    leftover = opponent.stack[len(opponent.stack)-1]
                     opponent.stack = []
-                    opener = None
-                    opponent = None
+                    if opener == player1:
+                        opener = player2
+                        opponent = player1
+                    else:
+                        opponent = player2
+                        opener = player1
+                    opener.stack.append(leftover)
+                    
                 player = hotseat(player)
                 if(opener == None):
                     player = initiative

@@ -26,3 +26,16 @@ playcard
 head, right arm, right torso, right leg, left arm, left torso, left leg"""
 """stats are
 strength, quickness, foresight and fortitution"""
+
+card stack resolving graph
+
+1 2 3		1 2 3
+x           x          
+  x   		  x      
+    x           x   
+
+opener			opponent
+1-1				1-2
+2-2				2-3
+3-3				
+
