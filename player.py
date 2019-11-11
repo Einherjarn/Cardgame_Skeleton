@@ -110,7 +110,8 @@ def load_deck(name, deck, player):
 
 
 class Player:
-    def __init__(self, deckname):
+    def __init__(self, deckname, playername):
+        self.name = playername
         """Hits follows the format of
         head, right arm, right torso, right leg, left arm,
         left torso, left leg"""
@@ -126,7 +127,6 @@ class Player:
         self.stamina = 10
         """Force player to choose a stance, then put stance here"""
         self.stance = None
-        self.isTurn = False
 
     """draw n cards from deck"""
     def draw(self, n):

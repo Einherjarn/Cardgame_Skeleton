@@ -21,8 +21,8 @@ sprites_group = pygame.sprite.Group()
 Continue = True
 clock = pygame.time.Clock()
 
-player1 = Player("dev_testing_deck_longsword")
-player2 = Player("dev_testing_deck_longsword")
+player1 = Player("dev_testing_deck_longsword", "player 1")
+player2 = Player("dev_testing_deck_longsword", "player 2")
 stack = []
 
 def resolve(card):
