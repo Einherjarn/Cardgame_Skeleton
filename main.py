@@ -10,7 +10,8 @@ pygame.init()
 size = (960,720)
 screen = pygame.display.set_mode(size)
 
-font_cardname = pygame.freetype.Font(None, 15)
+font_cardname = pygame.freetype.Font(None, 14)
+font_health = pygame.freetype.Font(None, 16)
 font_description = pygame.freetype.Font(None, 18)
 font_stamcost = pygame.freetype.Font(None, 36)
 font_stamina = pygame.freetype.Font(None, 42)
@@ -27,7 +28,7 @@ player2 = Player("dev_testing_deck_longsword", "player 2")
 initiative = None
 opener = None
 
-def resolve(card):
+def resolve(attack, counter):
     pass
     #stub
 
@@ -80,13 +81,28 @@ def render_player(player):
         render_card(player.hand[i])
         
     # individual screen elements
-    font_stamina.render_to(screen, (10,10), str(player.stamina), (0, 255, 0))
-    font_playername.render_to(screen, (10,50), str(player.name), (0, 0, 0))
+    font_stamina.render_to(screen, (120,10), str(player.stamina), (0, 255, 0))
+    font_playername.render_to(screen, (120,50), str(player.name), (0, 0, 0))
     cardonmouse = card_on_mouse(player) 
     if (cardonmouse):
-        font_cardselection.render_to(screen, (10,100), cardonmouse.name, (0, 0, 0))
+        font_cardselection.render_to(screen, (120,100), cardonmouse.name, (0, 0, 0))
         render_card(cardonmouse)
-
+    # health indicators
+    playersprite = Sprite("player_status_image.png")
+    playersprite.rect.x = 5
+    playersprite.rect.y = 5
+    sprites_group.add(playersprite)
+    sprites_group.update()
+    sprites_group.draw(screen)
+    sprites_group.empty()
+    """font_health.render_to(screen, (10,10), str(player.health[]), (255, 0, 0))
+    font_health
+    font_health
+    font_health
+    font_health
+    font_health
+    font_health"""
+    
     # updating screen
     pygame.display.flip()   
 
@@ -125,6 +141,17 @@ while Continue:
                 if(opener == None):
                     opener = player
                 player.stack.append(card)
+                if((initiative != player and card.take_initiative == True) or (initiative == player and card.take_initiative == True and opener != player)):
+                    # took initiative from opponent, now we evaluate the exchange
+                    initiative = player
+                    #print(initiative.name)
+                    if opener == player1:
+                        opponent = player2
+                    else:
+                        opponent = player1
+                    # evaluate each attack of the opener against defense used by opponent, and then yield turn to player who newly took initiative    
+                    for i in range(len(opponent.stack)):
+                        resolve(opener.stack[i], opponent.stack[i])
                 player = hotseat(player)
                 
     render_player(player)
