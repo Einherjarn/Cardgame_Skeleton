@@ -28,10 +28,6 @@ player2 = Player("dev_testing_deck_longsword", "player 2")
 initiative = None
 opener = None
 
-def resolve(attack, counter):
-    pass
-    #stub
-
 def card_on_mouse(player):
     lowdist = 9999
     for i in range(len(player.hand)):
@@ -120,6 +116,12 @@ def hotseat(player):
     else:
         player = player1
     return player
+
+def resolve(attack, counter):
+    # head, r-arm, r-torso, r-leg, l-arm, l-torso, l-leg
+    resulthits = [0,0,0,0,0,0,0]
+    pass
+    
 
 # Main Program Logic Loop
 while Continue:
