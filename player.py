@@ -10,7 +10,7 @@ def strbool(s):
         return False
 
 # loads card of given name into actual card object
-def load_card(name, card):
+def load_card(name, card, player):
     if name:
         # card parser
         f= open("card_data.txt", "r")
@@ -70,18 +70,21 @@ def load_card(name, card):
                 for k in range(i+1,end):
                     line = stuff[k].split()
                     newmod = []
-                    for l in range(len(line)):
+                    newmod.append(line[0].strip())
+                    newmod.append(line[1].strip())
+                    newmod.append(player)
+                    for l in range(2,len(line)):
                         newmod.append(line[l].strip())
                     card.modifiers.append(newmod)
-        """for i in range(len(card.modifiers)):
+        for i in range(len(card.modifiers)):
             for j in range(len(card.modifiers[i])):
-                print(card.modifiers[i][j])"""
+                print(card.modifiers[i][j])
 
 
 
 
 # loads deck of given name into given list
-def load_deck(name, deck):
+def load_deck(name, deck, player):
     if name:
         f= open("deck_data.txt", "r")
         stuff = f.readlines()
@@ -99,7 +102,7 @@ def load_deck(name, deck):
 
         for i in range(len(cardnames)):
             deck.append(Card_base())
-            load_card(cardnames[i], deck[i])
+            load_card(cardnames[i], deck[i], player)
         """
         for i in deck:
             print(i)
@@ -116,7 +119,7 @@ class Player:
         in that order"""
         self.stats = [0,0,0,0]
         self.deck = []
-        load_deck(deckname,self.deck)
+        load_deck(deckname,self.deck,self)
         self.hand = []
         self.discard = []
         """presuming 10 stamina is max"""
