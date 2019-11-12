@@ -95,7 +95,7 @@ def render_targeticons(card):
         sprites_group.add(sprite)
     if(card.target[4]):
         sprite = Sprite("targeticon_left_arm.png")
-        sprite.rect.x = card.cardsprite.rect.x+250
+        sprite.rect.x = card.cardsprite.rect.x+249
         sprite.rect.y = card.cardsprite.rect.y+258
         sprites_group.add(sprite)
     if(card.target[5]):
