@@ -68,6 +68,7 @@ def play_card(player):
                 args.append(player2)
                 run_arbitrary(card.modifiers[i][0],args)
         print(card.name)
+        player.discard(player.hand.index(card))
         return card
         
 # rendering stuff

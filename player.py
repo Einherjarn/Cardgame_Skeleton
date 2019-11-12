@@ -121,7 +121,7 @@ class Player:
         self.deck = []
         load_deck(deckname,self.deck,self)
         self.hand = []
-        self.discard = []
+        self.discardpile = []
         self.stack = []
         """presuming 10 stamina is max"""
         self.stamina = 10
@@ -137,20 +137,13 @@ class Player:
         elif(len(self.deck) > 0):
             for i in range(len(self.deck)):
                 self.hand.append(self.deck.pop())
-    """set stat m to n where n =/= 0"""
-    def setStat(self,n,m):
-        stats[m] = n
-    """get stat n"""
-    def getstat(self,n):
-        return stats[n]
-
     def shuffle(self):
         rng = random.SystemRandom()
         random.shuffle(self.deck, rng.random)
 
     """discard a card at index i"""
     def discard(self, i):
-        discard.append(hand.pop(i))
+        self.discardpile.append(self.hand.pop(i))
 
     def setStance(self):
         pass
