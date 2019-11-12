@@ -80,8 +80,8 @@ def render_targeticons(card):
         sprites_group.add(sprite)
     if(card.target[1]):
         sprite = Sprite("targeticon_right_arm.png")
-        sprite.rect.x = card.cardsprite.rect.x+233
-        sprite.rect.y = card.cardsprite.rect.y+259
+        sprite.rect.x = card.cardsprite.rect.x+232
+        sprite.rect.y = card.cardsprite.rect.y+257
         sprites_group.add(sprite)
     if(card.target[2]):
         sprite = Sprite("targeticon_right_torso.png")
@@ -90,8 +90,8 @@ def render_targeticons(card):
         sprites_group.add(sprite)
     if(card.target[3]):
         sprite = Sprite("targeticon_right_leg.png")
-        sprite.rect.x = card.cardsprite.rect.x+233
-        sprite.rect.y = card.cardsprite.rect.y+265
+        sprite.rect.x = card.cardsprite.rect.x+232
+        sprite.rect.y = card.cardsprite.rect.y+266
         sprites_group.add(sprite)
     if(card.target[4]):
         sprite = Sprite("targeticon_left_arm.png")
@@ -118,33 +118,33 @@ def render_defenseicons(card):
         sprites_group.add(sprite)
     if(card.defend[1]):
         sprite = Sprite("targeticon_right_arm.png")
-        sprite.rect.x = card.cardsprite.rect.x+233
-        sprite.rect.y = card.cardsprite.rect.y+284
+        sprite.rect.x = card.cardsprite.rect.x+232
+        sprite.rect.y = card.cardsprite.rect.y+290
         sprites_group.add(sprite)
     if(card.defend[2]):
         sprite = Sprite("targeticon_right_torso.png")
-        sprite.rect.x = card.cardsprite.rect.x+238
-        sprite.rect.y = card.cardsprite.rect.y+284
+        sprite.rect.x = card.cardsprite.rect.x+235
+        sprite.rect.y = card.cardsprite.rect.y+290
         sprites_group.add(sprite)
     if(card.defend[3]):
         sprite = Sprite("targeticon_right_leg.png")
-        sprite.rect.x = card.cardsprite.rect.x+233
-        sprite.rect.y = card.cardsprite.rect.y+298
+        sprite.rect.x = card.cardsprite.rect.x+232
+        sprite.rect.y = card.cardsprite.rect.y+299
         sprites_group.add(sprite)
     if(card.defend[4]):
         sprite = Sprite("targeticon_left_arm.png")
-        sprite.rect.x = card.cardsprite.rect.x+250
-        sprite.rect.y = card.cardsprite.rect.y+291
+        sprite.rect.x = card.cardsprite.rect.x+248
+        sprite.rect.y = card.cardsprite.rect.y+290
         sprites_group.add(sprite)
     if(card.defend[5]):
         sprite = Sprite("targeticon_left_torso.png")
-        sprite.rect.x = card.cardsprite.rect.x+245
-        sprite.rect.y = card.cardsprite.rect.y+291
+        sprite.rect.x = card.cardsprite.rect.x+243
+        sprite.rect.y = card.cardsprite.rect.y+290
         sprites_group.add(sprite)
     if(card.defend[6]):
         sprite = Sprite("targeticon_left_leg.png")
-        sprite.rect.x = card.cardsprite.rect.x+248
-        sprite.rect.y = card.cardsprite.rect.y+301
+        sprite.rect.x = card.cardsprite.rect.x+245
+        sprite.rect.y = card.cardsprite.rect.y+299
         sprites_group.add(sprite)
         
 # rendering stuff

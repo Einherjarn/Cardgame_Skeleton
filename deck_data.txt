@@ -1,11 +1,10 @@
 dev_testing_deck_longsword
 attack_strike
-attack_strike
-attack_strike
-attack_strike
 defend_block
-defend_block
-defend_block
-defend_block
+outside_arm_cut
+outside_leg_cut
+outside_torso_cut
+inside_arm_cut
+inside_leg_cut
 stance_dev_ready
 end_deck
