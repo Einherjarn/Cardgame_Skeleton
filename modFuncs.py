@@ -1,5 +1,6 @@
 import math
 import pygame
+import random
 from card_base import Card_base
 from player import Player
 from random import seed
@@ -10,7 +11,7 @@ def drawSelf(player, n, player1, player2):
     player.draw(n)
 
 def discardSelf(player, n, player1, player2):
-    player.discard.append(player.hand.pop(n))
+    player.discard(len(player.hand))
 
 """def discardChoiceSelf(player, n, player1, player2):
     for i in range(n):
@@ -23,7 +24,7 @@ def discardSelf(player, n, player1, player2):
 def discardRandomSelf(player, n, player1, player2):
     maxval = len(player.hand)-1
     for i in range(n):
-        discardSelf(player, random.randint(0, maxval))
+        discardSelf(player, random.randint(0, maxval), player1, player2)
 
 def drawOpp(player, n, player1, player2):
     if(player==player1):
@@ -41,12 +42,13 @@ def discardOpp(player, n, player1, player2):
 
 def discardRandomOpp(player, n, player1, player2):
     if(player==player1):
-        target = player1
-    else:
         target = player2
+    else:
+        target = player1
     maxval = len(target.hand)-1
-    for i in range(n):
-        discardSelf(player, random.randint(0, maxval))
+    if(maxval > 0):
+        for i in range(n):
+            discardSelf(target, random.randint(0, maxval), player1, player2)
 
 def bind(player, player1, player2):
     player.invulnerable = promptTargetZone()

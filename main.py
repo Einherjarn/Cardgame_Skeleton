@@ -33,8 +33,9 @@ initiative = None
 opener = None
 
 def run_arbitrary(name, args):
-    """for i in range(len(args)):
-        print(str(args[i]))"""
+    print("debug, run_arbitrary(" + name +", [])")
+    for i in range(len(args)):
+        print(str(args[i]))
     possibles = globals().copy()
     possibles.update(locals())
     func = possibles.get(name)
@@ -58,7 +59,7 @@ def play_card(player):
     (b1,b2,b3) = pygame.mouse.get_pressed()
     if(b1 > 0):
         card = card_on_mouse(player)
-        # find and execute possible on-play modifiers
+        # find and execute possible OnPlay modifiers
         for i in range(len(card.modifiers)):
             if(card.modifiers[i][1] == "OnPlay"):
                 args = []
@@ -95,8 +96,8 @@ def render_targeticons(card):
         sprites_group.add(sprite)
     if(card.target[4]):
         sprite = Sprite("targeticon_left_arm.png")
-        sprite.rect.x = card.cardsprite.rect.x+249
-        sprite.rect.y = card.cardsprite.rect.y+258
+        sprite.rect.x = card.cardsprite.rect.x+248
+        sprite.rect.y = card.cardsprite.rect.y+257
         sprites_group.add(sprite)
     if(card.target[5]):
         sprite = Sprite("targeticon_left_torso.png")
@@ -223,11 +224,46 @@ def hotseat(player):
 def resolve(attacker, defender, attack, counter):
     # head, r-arm, r-torso, r-leg, l-arm, l-torso, l-leg
     result = [0,0,0,0,0,0,0]
+    deflect = True
 
     for i in range(len(attack.power)):
         result[i] = (counter.defend[i] - attack.power[i])
+        if (result[i] > 0):
+            deflect = False
     for i in range(len(result)):
-        defender.health[i] += result[i]
+        if(result[i] < 0):
+            defender.health[i] += result[i]
+    
+    # find and execute possible OnDeflect modifiers
+    if (deflect == True):
+        for i in range(len(attack.modifiers)):
+            if(attack.modifiers[i][1] == "OnDeflect"):
+                args = []
+                for j in range(2,len(attack.modifiers[i])):
+                    args.append(attack.modifiers[i][j])
+                args.append(player1)
+                args.append(player2)
+                run_arbitrary(attack.modifiers[i][0],args)
+        # find and execute possible OnDefend modifiers
+        for i in range(len(counter.modifiers)):
+            if(counter.modifiers[i][1] == "OnDefend"):
+                args = []
+                for j in range(2,len(counter.modifiers[i])):
+                    args.append(counter.modifiers[i][j])
+                args.append(player1)
+                args.append(player2)
+                run_arbitrary(counter.modifiers[i][0],args)
+    # find and execute possible OnHit modifiers
+    else:
+        for i in range(len(attack.modifiers)):
+            if(attack.modifiers[i][1] == "OnHit"):
+                args = []
+                for j in range(2,len(attack.modifiers[i])):
+                    args.append(attack.modifiers[i][j])
+                args.append(player1)
+                args.append(player2)
+                run_arbitrary(attack.modifiers[i][0],args)
+    
     if(defender.health[0] <= 0 or defender.health[2] <= 0 or defender.health[5] <= 0):
         print("debug_wincondition: " +defender.name + "has died, " + attacker.name + " wins!")
         pygame.display.quit()
