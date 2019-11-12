@@ -33,9 +33,9 @@ initiative = None
 opener = None
 
 def run_arbitrary(name, args):
-    print("debug, run_arbitrary(" + name +", [])")
+    """print("debug, run_arbitrary(" + name +", [])")
     for i in range(len(args)):
-        print(str(args[i]))
+        print(str(args[i]))"""
     possibles = globals().copy()
     possibles.update(locals())
     func = possibles.get(name)
@@ -52,25 +52,31 @@ def card_on_mouse(player):
             if(dist < lowdist):
                 lowdist = dist
                 card = player.hand[i]
-    return card
+    try:
+        return card
+    except NameError:
+        return
 
 def play_card(player):
     render_player(player)
     (b1,b2,b3) = pygame.mouse.get_pressed()
     if(b1 > 0):
         card = card_on_mouse(player)
-        # find and execute possible OnPlay modifiers
-        for i in range(len(card.modifiers)):
-            if(card.modifiers[i][1] == "OnPlay"):
-                args = []
-                for j in range(2,len(card.modifiers[i])):
-                    args.append(card.modifiers[i][j])
-                args.append(player1)
-                args.append(player2)
-                run_arbitrary(card.modifiers[i][0],args)
-        print(card.name)
-        player.discard(player.hand.index(card))
-        return card
+        if(card != None):
+            # find and execute possible OnPlay modifiers
+            for i in range(len(card.modifiers)):
+                if(card.modifiers[i][1] == "OnPlay"):
+                    args = []
+                    for j in range(2,len(card.modifiers[i])):
+                        args.append(card.modifiers[i][j])
+                    args.append(player1)
+                    args.append(player2)
+                    run_arbitrary(card.modifiers[i][0],args)
+            print(card.name)
+            player.discard(player.hand.index(card))
+            return card
+        else:
+            return
 
 # add appropriate target icons to spritegroup
 def render_targeticons(card):
