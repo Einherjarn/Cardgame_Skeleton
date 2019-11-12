@@ -11,7 +11,7 @@ def drawSelf(player, n, player1, player2):
     player.draw(n)
 
 def discardSelf(player, n, player1, player2):
-    player.discard(len(player.hand))
+    player.discard(len(player.hand)-1)
 
 """def discardChoiceSelf(player, n, player1, player2):
     for i in range(n):
