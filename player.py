@@ -53,11 +53,6 @@ def load_card(name, card, player):
                         newdesc +=i
 
                 card.description = newdesc
-                #if there are any modifiers
-                #leaving these here for posterity
-                #for i in range(0,len(line)-34,2):
-                #    card.modifiers.append(line[34+i])
-                #    card.modifiers.append(line[34+i+1])
 
         # modifier parser
         f=open("modifiers.txt")
