@@ -24,6 +24,7 @@ pygame.display.set_caption("cardgame skeleton")
 sprites_group = pygame.sprite.Group()
 Continue = True
 clock = pygame.time.Clock()
+click = pygame.time.get_ticks()
 
 player1 = Player("dev_testing_deck_longsword", "player 1")
 player1.shuffle()
@@ -58,10 +59,13 @@ def card_on_mouse(player):
         return
 
 def play_card(player):
+    global click
     render_player(player)
     (b1,b2,b3) = pygame.mouse.get_pressed()
-    if(b1 > 0):
+    if(b1 > 0 and (pygame.time.get_ticks() - 100 > click) and event.type == pygame.MOUSEBUTTONDOWN):
         card = card_on_mouse(player)
+        click = pygame.time.get_ticks()
+        print(click)
         if(card != None):
             # find and execute possible OnPlay modifiers
             for i in range(len(card.modifiers)):
