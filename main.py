@@ -197,6 +197,9 @@ def render_player(player):
         font_cardselection.render_to(screen, (120,100), cardonmouse.name, (0, 0, 0))
         render_card(cardonmouse)
     # health indicators
+    # left side status
+    player = player1
+    font_playername.render_to(screen, (10,200), str(player.name), (0, 0, 0))
     playersprite = Sprite("player_status_image.png")
     playersprite.rect.x = 5
     playersprite.rect.y = 5
@@ -218,6 +221,31 @@ def render_player(player):
     font_health.render_to(screen, (70,50), str(player.health[5]), (255, 0, 0))
     #l-leg
     font_health.render_to(screen, (70,160), str(player.health[6]), (255, 0, 0))
+
+    # right side status
+    player = player2
+    font_playername.render_to(screen, (800,200), str(player.name), (0, 0, 0))
+    playersprite = Sprite("player_status_image.png")
+    playersprite.rect.x = 850
+    playersprite.rect.y = 5
+    sprites_group.add(playersprite)
+    sprites_group.update()
+    sprites_group.draw(screen)
+    sprites_group.empty()
+    #head
+    font_health.render_to(screen, (900,15), str(player.health[0]), (255, 0, 0))
+    #r-arm
+    font_health.render_to(screen, (855,50), str(player.health[1]), (255, 0, 0))
+    #r-torso
+    font_health.render_to(screen, (885,50), str(player.health[2]), (255, 0, 0))
+    #r-leg
+    font_health.render_to(screen, (885,160), str(player.health[3]), (255, 0, 0))
+    #l-arm
+    font_health.render_to(screen, (945,50), str(player.health[4]), (255, 0, 0))
+    #l-torso
+    font_health.render_to(screen, (915,50), str(player.health[5]), (255, 0, 0))
+    #l-leg
+    font_health.render_to(screen, (915,160), str(player.health[6]), (255, 0, 0)) 
     
     # updating screen
     pygame.display.flip()   
