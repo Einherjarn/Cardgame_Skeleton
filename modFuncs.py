@@ -13,13 +13,10 @@ def drawSelf(player, n, player1, player2):
 def discardSelf(player, n, player1, player2):
     player.discard(len(player.hand)-1)
 
-"""def discardChoiceSelf(player, n, player1, player2):
+def discardPromptSelf(player, n, player1, player2):
     for i in range(n):
-        print("CHOOSE DISCARD:")
-        card = card_on_mouse(player)
-        player.discard.append(card)
-        player.hand.pop(player.hand.index(card))
-        print("discarded " + card.name)"""
+        player.prompt.append("Pick a card")
+        player.prompt.append("discardSelf")
 
 def discardRandomSelf(player, n, player1, player2):
     maxval = len(player.hand)-1

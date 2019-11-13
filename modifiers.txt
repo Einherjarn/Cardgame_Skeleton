@@ -1,5 +1,6 @@
 attack_strike
 drawSelf OnPlay 1
+discardPromptSelf OnPlay 1
 discardRandomOpp OnHit 1
 end
 parry:_First

@@ -120,6 +120,8 @@ class Player:
         self.hand = []
         self.discardpile = []
         self.stack = []
+        self.prompt = []
+        self.drew = False
         """presuming 10 stamina is max"""
         self.stamina = 10
         """Force player to choose a stance, then put stance here"""

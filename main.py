@@ -16,6 +16,7 @@ font_cardname = pygame.freetype.Font(None, 14)
 font_health = pygame.freetype.Font(None, 16)
 font_description = pygame.freetype.Font(None, 18)
 font_stamcost = pygame.freetype.Font(None, 36)
+font_prompt = pygame.freetype.Font(None, 36)
 font_stamina = pygame.freetype.Font(None, 42)
 font_cardselection = pygame.freetype.Font(None, 42)
 font_playername = pygame.freetype.Font(None, 42)
@@ -32,6 +33,10 @@ player2 = Player("dev_testing_deck_longsword", "player 2")
 player2.shuffle()
 initiative = None
 opener = None
+opponent = None
+skip_playcard = False
+card = None
+resolving = 0
 
 def run_arbitrary(name, args):
     """print("debug, run_arbitrary(" + name +", [])")
@@ -58,6 +63,19 @@ def card_on_mouse(player):
     except NameError:
         return
 
+def pick_card(player):
+    global click
+    render_player(player)
+    (b1,b2,b3) = pygame.mouse.get_pressed()
+    if(b1 > 0 and (pygame.time.get_ticks() - 100 > click) and event.type == pygame.MOUSEBUTTONDOWN):
+        card = card_on_mouse(player)
+        click = pygame.time.get_ticks()
+        if(card != None):
+            print(card.name)
+            return card
+        else:
+            return
+
 def play_card(player):
     global click
     render_player(player)
@@ -75,6 +93,7 @@ def play_card(player):
                     args.append(player1)
                     args.append(player2)
                     run_arbitrary(card.modifiers[i][0],args)
+                    print(player.name)
             print(card.name)
             player.discard(player.hand.index(card))
             return card
@@ -190,6 +209,8 @@ def render_player(player):
         render_card(player.hand[i])
         
     # individual screen elements
+    if(player.prompt != []):
+        font_prompt.render_to(screen, (400,10), player.prompt[0], (0, 0, 0))
     font_stamina.render_to(screen, (120,10), str(player.stamina), (0, 255, 0))
     font_playername.render_to(screen, (120,50), str(player.name), (0, 0, 0))
     cardonmouse = card_on_mouse(player) 
@@ -274,10 +295,110 @@ def resolve(attacker, defender, attack, counter):
                 run_arbitrary(attack.modifiers[i][0],args)
     
     if(defender.health[0] <= 0 or defender.health[2] <= 0 or defender.health[5] <= 0):
-        print("debug_wincondition: " +defender.name + "has died, " + attacker.name + " wins!")
+        print("debug_wincondition: " +defender.name + " has died, " + attacker.name + " wins!")
         pygame.display.quit()
         pygame.quit()
         sys.exit()
+
+def process_prompt(player, player1, player2):
+    # top prompt is for a card
+    if(player.prompt[0] == "Pick a card"):
+        card = pick_card(player)
+        if(card):
+            args = []
+            args.append(player)
+            args.append(player.hand.index(card))
+            args.append(player1)
+            args.append(player2)
+            run_arbitrary(player.prompt[1],args)
+            player.prompt.pop(0)
+            player.prompt.pop(0)
+                
+
+def iterate_game():
+    global player, player1, player2, initiative, opener, opponent, resolving, skip_playcard, card
+    """print(str(player) +str(player1) +str(player2))
+    print(str(initiative) +str(opener) +str(opponent))
+    print(str(resolving))"""
+    if player == player1:
+        otherplayer = player2
+    else:
+        otherplayer = player1
+    # current player has no prompts
+    if(player.prompt == []):
+        if(opener == None):
+            opes = 0
+        else:
+            opes = len(opener.stack)
+        if(opponent == None):
+            opps = 0
+        else:
+           opps = len(opponent.stack)
+        # we were previously resolving stacks
+        #print(str(resolving) +", " +str(opes) +", " +str(opps))
+        if(resolving < (opes + opps - 1)):
+            print("resolving exchange..")
+            #print("stacksizes: " + str(len(opener.stack)) + ", " + str(len(opponent.stack)) + "; resolve iteration: " +str(resolving))
+            # we are resolving odd iteration, meaning opener move
+            if((resolving % 2) != 0 or resolving == 0):
+                #print("resolving: opener[" + str(resolving) + "], opponent[" + str(resolving) + "]")
+                resolve(opener, opponent, opener.stack[resolving], opponent.stack[resolving])
+                resolving += 1
+            # we are resolving even iteration, meaning opponent move
+            else:
+                #print("resolving: opponent[" + str(resolving) + "], opener[" + str(resolving+1) + "]")
+                resolve(opponent, opener, opponent.stack[resolving], opener.stack[resolving+1])
+                resolving += 1
+        # playing a new card, expected primary route of logic
+        else:
+            if(skip_playcard == False):
+                # draw if hand not full and we havent drawn yet this turn
+                if (len(player.hand) < 10 and player.drew == False):
+                    player.draw(1)
+                player.drew = True
+                # ask current player for card
+                card = play_card(player)
+            # card did not create prompt
+            if(player.prompt == []):
+                if(card):
+                    if(card.take_initiative == True):
+                        initiative = player
+                    # if this was the first card played in an exchange
+                    if(opener == None):
+                        opener = player
+                        opponent = otherplayer
+                    player.stack.append(card)
+                    card = None
+                    skip_playcard = False
+                    player.drew = False
+                    player = hotseat(player)
+            # newly played card caused a prompt       
+            else:
+                if(card):
+                    skip_playcard = True
+                return
+        # we have resolved both stacks
+        if((resolving >= (opes + opps -1)) and resolving > 0 and opener != None and opponent != None):
+            print("resolved both stacks")
+            resolving = 0
+            opener.stack = []
+            leftover = opponent.stack[len(opponent.stack)-1]
+            opponent.stack = []
+            if opener == player1:
+                opener = player2
+                opponent = player1
+            else:
+                opponent = player2
+                opener = player1
+            opener.stack.append(leftover)
+
+    # current player has prompts
+    elif(len(player.prompt) > 0):
+        process_prompt(player, player1, player2)
+    # other player has prompts
+    elif(len(otherplayer.prompt) > 0):
+        process_prompt(otherplayer, player2, player2)
+    
 
 # Main Program Logic Loop
 while Continue:
@@ -296,47 +417,10 @@ while Continue:
                 player1.setStance()
                 player2.draw(5)
                 player2.setStance()
-            # ask current player for card
-            card = play_card(player)
-            if (card):
-                if(opener == None):
-                    opener = player
-                player.stack.append(card)
-                if((initiative != player and card.take_initiative == True) or (initiative == player and card.take_initiative == True and opener != player)):
-                    # took initiative from opponent, now we evaluate the exchange
-                    initiative = player
-                    if opener == player1:
-                        opponent = player2
-                    else:
-                        opponent = player1
-                    # evaluate each attack of the opener against defense used by opponent
-                    print("resolving exchange..")
-                    #print("stacksizes: " + str(len(opener.stack)) + ", " + str(len(opponent.stack)))
-                    for i in range(len(opener.stack)):
-                        #print("resolving: opener[" + str(i) + "], opponent[" + str(i) + "]")
-                        resolve(opener, opponent, opener.stack[i], opponent.stack[i])
-                        if(i < (len(opener.stack)-1) and (len(opener.stack) > 1)):
-                            #print("resolving: opponent[" + str(i) + "], opener[" + str(i+1) + "]")
-                            resolve(opponent, opener, opponent.stack[i], opener.stack[i+1])
-                    # swap roles, leave the last action of the opponent on his (now opener) stack
-                    opener.stack = []
-                    leftover = opponent.stack[len(opponent.stack)-1]
-                    opponent.stack = []
-                    if opener == player1:
-                        opener = player2
-                        opponent = player1
-                    else:
-                        opponent = player2
-                        opener = player1
-                    opener.stack.append(leftover)
 
-                # draw if hand not full
-                if (len(player.hand) < 10):
-                    player.draw(1)    
-                player = hotseat(player)
-                if(opener == None):
-                    player = initiative
-                
+            # process one step of game logic    
+            iterate_game()
+            
     render_player(player)
     # 60 fps glorious pc gaming masterrace
     clock.tick(60)
