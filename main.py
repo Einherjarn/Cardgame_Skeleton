@@ -65,7 +65,6 @@ def play_card(player):
     if(b1 > 0 and (pygame.time.get_ticks() - 100 > click) and event.type == pygame.MOUSEBUTTONDOWN):
         card = card_on_mouse(player)
         click = pygame.time.get_ticks()
-        print(click)
         if(card != None):
             # find and execute possible OnPlay modifiers
             for i in range(len(card.modifiers)):

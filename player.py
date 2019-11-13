@@ -63,7 +63,9 @@ def load_card(name, card, player):
                 for j in range(i,len(stuff)):
                     if(stuff[j].strip()=="end"):
                         end = j
-                for k in range(i+1,end):
+                        break
+                #print(str(i+1) +", " +str(end-1))
+                for k in range(i+1,end-1):
                     line = stuff[k].split()
                     newmod = []
                     newmod.append(line[0].strip())
