@@ -5,3 +5,8 @@ outside_leg_cut card_art_strike.png 1 1 False False False True False False False
 outside_torso_cut card_art_strike.png 1 1 False False True False False False False False True True True True False False 0 0 1 0 0 0 0 0 1 1 1 1 0 0 True Dev_cut_to_outside_torso
 inside_arm_cut card_art_strike.png 1 1 False False False False False False true False False True True True True True 0 0 0 0 0 0 1 0 0 1 1 1 1 1 True Dev_cut_to_inside_shoulder
 inside_leg_cut card_art_strike.png 1 1 False False False False True False False False True True False True True True 0 0 0 0 1 0 0 0 1 1 0 1 1 1 True Dev_cut_to_inside_leg
+inside_torso_cut card_art_strike.png 1 1 False False False False False True False False True False True True True True 0 0 0 0 0 1 0 0 1 0 1 1 1 1 True Dev_cut_to_inside_torso
+outside_guard card_art_block.png 1 1 False False False False False False False False False False False True True True 0 0 0 0 0 0 0 0 0 0 0 1 1 1 False Dev_panic_protect_outside
+inside_guard card_art_block.png 1 1 False False False False False False False False True True True False False False 0 0 0 0 0 0 0 0 1 1 1 0 0 0 False Dev_panic_protect_inside
+low_guard card_art_block.png 1 1 False False False False False False False False False False True True False False 0 0 0 0 0 0 0 0 0 0 1 1 0 0 False Dev_panic_protect_low
+high_guard card_art_block.png 1 1 False False False False False False False True True False False False False True 0 0 0 0 0 0 0 1 1 0 0 0 0 1 False Dev_panic_protect_high
