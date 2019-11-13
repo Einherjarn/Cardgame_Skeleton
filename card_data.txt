@@ -10,3 +10,13 @@ outside_guard card_art_block.png 1 1 False False False False False False False F
 inside_guard card_art_block.png 1 1 False False False False False False False False True True True False False False 0 0 0 0 0 0 0 0 1 1 1 0 0 0 False Dev_panic_protect_inside
 low_guard card_art_block.png 1 1 False False False False False False False False False False True True False False 0 0 0 0 0 0 0 0 0 0 1 1 0 0 False Dev_panic_protect_low
 high_guard card_art_block.png 1 1 False False False False False False False True True False False False False True 0 0 0 0 0 0 0 1 1 0 0 0 0 1 False Dev_panic_protect_high
+parry:_Sixth card_art_block.png 1 2 False False False False False False False False True True False False False False 0 0 0 0 0 0 0 0 1 1 0 0 0 0 True Dev_Controlled_high_inside_parry:_draw_2
+parry:_Fourth card_art_block.png 1 2 False False False False False False False False False False False False True True 0 0 0 0 0 0 0 0 0 0 0 0 1 1 True Dev_Controlled_high_outside_parry:_draw_2
+parry:_Eighth card_art_block.png 1 2 False False False False False False False False False False True False False False 0 0 0 0 0 0 0 0 0 0 1 0 0 0 True Dev_Controlled_low_inside_parry:_draw_2
+parry:_Seventh card_art_block.png 1 2 False False False False False False False False False False False True False False 0 0 0 0 0 0 0 0 0 0 0 1 0 0 True Dev_Controlled_low_outside_parry:_draw_2
+parry:_First card_art_block.png 1 2 False False False False False False False True False False False False False False 0 0 0 0 0 0 0 1 0 0 0 0 0 0 True Dev_Controlled_head_parry:_draw_2
+First_bind_thrust card_art_strike.png 1 4 True False False False False False False True False False False False False False 1 0 0 0 0 0 0 1 0 0 0 0 0 0 True Thrust_to_head_with_a_bind:_discard_1
+Fourth_bind_thrust card_art_strike.png 1 4 False False True False False False False False False False False False True True 0 0 1 0 0 0 0 0 0 0 0 0 1 1 True Dev_Thrust_to_inside_chest_with_a_bind:_discard_1
+Sixth_bind_thrust card_art_strike.png 1 4 False False False False False True False False True True False False False False 0 0 0 0 0 1 0 0 1 1 0 0 0 0 True Dev_Thrust_to_outside_chest_with_a_bind:_discard_1
+Eighth_bind_thrust card_art_strike.png 1 4 False False False False False True False False False False True False False False 0 0 0 0 0 1 0 0 0 0 1 0 0 0 True Dev_Thrust_to_outside_leg_with_a_bind:_discard_1
+Seventh_bind_thrust card_art_block.png 1 4 False False False False True False False False False False False True False False 0 0 0 0 1 0 0 0 0 0 0 1 0 0 True Dev_Thrust_to_inside_leg_with_a_bind:_discard_1

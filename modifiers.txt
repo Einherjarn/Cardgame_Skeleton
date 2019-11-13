@@ -2,5 +2,42 @@ attack_strike
 drawSelf OnPlay 1
 discardRandomOpp OnHit 1
 end
-
-
+parry:_First
+drawSelf OnDefend 2
+end
+parry:_Fourth
+drawSelf OnDefend 2
+end
+parry:_Sixth
+drawSelf OnDefend 2
+end
+parry:_Eighth
+drawSelf OnDefend 2
+end
+parry:_Seventh
+drawself OnDefend 2
+end
+First_bind_thrust
+discardRandomOpp OnDeflect 1
+discardRandomOpp OnHit 1
+end
+Fourth_bind_thrust
+discardRandomOpp OnDeflect 1
+discardRandomOpp OnHit 1
+end
+Sixth_bind_thrustFirst_bind_thrust
+discardRandomOpp OnDeflect 1
+discardRandomOpp OnHit 1
+end
+Fifth_bind_thrust
+discardRandomOpp OnDeflect 1
+discardRandomOpp OnHit 1
+end
+Eighth_bind_thrust
+discardRandomOpp OnDeflect 1
+discardRandomOpp OnHit 1
+end
+Seventh_bind_thrust
+discardRandomOpp OnDeflect 1
+discardRandomOpp OnHit 1
+end
