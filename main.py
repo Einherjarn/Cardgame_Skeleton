@@ -218,8 +218,11 @@ def render_player(player):
         font_cardselection.render_to(screen, (120,100), cardonmouse.name, (0, 0, 0))
         render_card(cardonmouse)
     # health indicators
-    # left side status
-    player = player1
+    # player status
+    if player == player1:
+        otherplayer = player2
+    else:
+        otherplayer = player1
     font_playername.render_to(screen, (10,200), str(player.name), (0, 0, 0))
     playersprite = Sprite("player_status_image.png")
     playersprite.rect.x = 5
@@ -243,8 +246,8 @@ def render_player(player):
     #l-leg
     font_health.render_to(screen, (70,160), str(player.health[6]), (255, 0, 0))
 
-    # right side status
-    player = player2
+    # opponent status
+    player = otherplayer
     font_playername.render_to(screen, (800,200), str(player.name), (0, 0, 0))
     playersprite = Sprite("player_status_image.png")
     playersprite.rect.x = 850
