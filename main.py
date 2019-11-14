@@ -9,7 +9,7 @@ from player import Player
 
 # Initialization stuff
 pygame.init()
-size = (960,720)
+size = (960,800)
 screen = pygame.display.set_mode(size)
 
 font_cardname = pygame.freetype.Font(None, 14)
@@ -433,22 +433,22 @@ while Continue:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             Continue = False
-        else:     
-        # all primary game logic goes under here
-            # start of exchange, current player undefined, so we do startup stuff.
-            try:
-                player
-            except NameError:
-                player = player1
-                initiative = player1
-                player1.draw(5)
-                player1.setStance()
-                player2.draw(5)
-                player2.setStance()
+        else:
+            pass
+    # all primary game logic goes under here
+    # start of exchange, current player undefined, so we do startup stuff.
+    try:
+        player
+    except NameError:
+        player = player1
+        initiative = player1
+        player1.draw(5)
+        player1.setStance()
+        player2.draw(5)
+        player2.setStance()
 
-            # process one step of game logic    
-            iterate_game()
-            
+    # process one step of game logic
+    iterate_game()
     render_player(player)
     # 60 fps glorious pc gaming masterrace
     clock.tick(60)
