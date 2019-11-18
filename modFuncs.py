@@ -47,6 +47,9 @@ def discardRandomOpp(player, n, player1, player2):
         for i in range(n):
             discardSelf(target, random.randint(0, maxval), player1, player2)
 
+def gainStamina(player, n, player1, player2):
+    player.stamina += n
+
 def bind(player, player1, player2):
     player.invulnerable = promptTargetZone()
 

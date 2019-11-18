@@ -14,6 +14,12 @@ dev_testing_deck_greatsword
 wide_cleave
 wide_cleave
 wide_cleave
-wide_cleave
-attack_strike
+low_guard
+low_guard
+low_guard
+high_guard
+high_guard
+high_guard
+recuperate
+recuperate
 end_deck

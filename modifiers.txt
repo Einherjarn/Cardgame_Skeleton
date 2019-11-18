@@ -45,3 +45,13 @@ end
 wide_cleave
 discardPromptSelf OnPlay 2
 end
+low_guard
+discardRandomOpp OnDefend 1
+end
+high_guard
+discardRandomOpp OnDefend 1
+end
+recuperate
+drawSelf OnPlay 2
+gainStamina OnPlay 2
+end

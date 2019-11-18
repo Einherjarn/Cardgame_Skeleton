@@ -29,7 +29,7 @@ click = pygame.time.get_ticks()
 
 player1 = Player("dev_testing_deck_greatsword", "player 1")
 player1.shuffle()
-player2 = Player("dev_testing_deck_longsword", "player 2")
+player2 = Player("dev_testing_deck_greatsword", "player 2")
 player2.shuffle()
 
 # variables used in handling gamestate
@@ -318,19 +318,20 @@ def hotseat(player):
     return player
 
 def resolve(attacker, defender, attack, counter):
+    #print("resolving: " +attack.name +" against: " +counter.name)
     # head, r-arm, r-torso, r-leg, l-arm, l-torso, l-leg
     result = [0,0,0,0,0,0,0]
     deflect = True
 
     for i in range(len(attack.power)):
-        result[i] = (counter.defend[i] - attack.power[i])
-        if (result[i] > 0):
+        result[i] = (counter.defense_power[i] - attack.power[i])
+        if (result[i] < 0):
             deflect = False
     for i in range(len(result)):
         if(result[i] < 0):
             defender.health[i] += result[i]
-    
-    # find and execute possible OnDeflect modifiers
+
+    # no damage through, find and execute possible OnDeflect modifiers
     if (deflect == True):
         for i in range(len(attack.modifiers)):
             if(attack.modifiers[i][1] == "OnDeflect"):

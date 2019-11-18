@@ -7,9 +7,7 @@ inside_arm_cut card_art_strike.png 1 1 False False False False False False true 
 inside_leg_cut card_art_strike.png 1 1 False False False False True False False False True True False True True True 0 0 0 0 1 0 0 0 1 1 0 1 1 1 True Dev_cut_to_inside_leg
 inside_torso_cut card_art_strike.png 1 1 False False False False False True False False True False True True True True 0 0 0 0 0 1 0 0 1 0 1 1 1 1 True Dev_cut_to_inside_torso
 outside_guard card_art_block.png 1 1 False False False False False False False False False False False True True True 0 0 0 0 0 0 0 0 0 0 0 1 1 1 False Dev_panic_protect_outside
-inside_guard card_art_block.png 1 1 False False False False False False False False True True True False False False 0 0 0 0 0 0 0 0 1 1 1 0 0 0 False Dev_panic_protect_inside
-low_guard card_art_block.png 1 1 False False False False False False False False False False True True False False 0 0 0 0 0 0 0 0 0 0 1 1 0 0 False Dev_panic_protect_low
-high_guard card_art_block.png 1 1 False False False False False False False True True False False False False True 0 0 0 0 0 0 0 1 1 0 0 0 0 1 False Dev_panic_protect_high
+inside_guard card_art_inside_guard.png 1 1 False False False False False False False False True True True False False False 0 0 0 0 0 0 0 0 1 1 1 0 0 0 False Dev_panic_protect_inside
 parry:_Sixth card_art_block.png 1 2 False False False False False False False False True True False False False False 0 0 0 0 0 0 0 0 1 1 0 0 0 0 True Dev_Controlled_high_inside_parry:_draw_2
 parry:_Fourth card_art_block.png 1 2 False False False False False False False False False False False False True True 0 0 0 0 0 0 0 0 0 0 0 0 1 1 True Dev_Controlled_high_outside_parry:_draw_2
 parry:_Eighth card_art_block.png 1 2 False False False False False False False False False False True False False False 0 0 0 0 0 0 0 0 0 0 1 0 0 0 True Dev_Controlled_low_inside_parry:_draw_2
@@ -21,4 +19,7 @@ Sixth_bind_thrust card_art_strike.png 1 4 False False False False False True Fal
 Eighth_bind_thrust card_art_strike.png 1 4 False False False False False True False False False False True False False False 0 0 0 0 0 1 0 0 0 0 1 0 0 0 True Dev_Thrust_to_outside_leg_with_a_bind:_discard_1
 Seventh_bind_thrust card_art_block.png 1 4 False False False False True False False False False False False True False False 0 0 0 0 1 0 0 0 0 0 0 1 0 0 True Dev_Thrust_to_inside_leg_with_a_bind:_discard_1
 
-wide_cleave card_art_wide_cleave.png 3 1 False True True False True True False False True True False False False False 0 2 2 0 2 2 0 0 2 2 0 0 0 0 True Heavy_cleave\nChoose_discard_2
+wide_cleave card_art_wide_cleave.png 3 1 False True True False True True False False True True False False False False 0 2 2 0 2 2 0 0 2 2 0 0 0 0 True Heavy_cleave\nStrong_right_guard\nChoose_discard_2
+recuperate card_art_recuperate.png 0 4 False False False False False False False False False False False False False False 0 0 0 0 0 0 0 0 0 0 0 0 0 0 False Draw_2\nRecover_2_stamina
+low_guard card_art_low_guard.png 1 1 False False False False False False False False False False True False False True 0 0 0 0 0 0 0 0 0 0 2 0 0 2 False Strong_low_guard\nOn_Defend:_opp._discard_1
+high_guard card_art_high_guard.png 1 1 False False False False False False False True True True False True True False 0 0 0 0 0 0 0 2 2 2 0 2 2 0 False Strong_high_guard\nOn_Defend:_opp._discard_1
