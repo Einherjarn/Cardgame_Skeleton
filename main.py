@@ -199,23 +199,20 @@ def render_player(player):
             otherplayer = player2
         else:
             otherplayer = player1
-        # render cards, in 2 rows if more than 5
+        # define positions of cards, in 2 rows if more than 5
         for i in range(len(player.hand)):
+            # basic sine wave for cards held in hand
+            heightmod = 50 * (-1 * math.sin((i+0.5)/1.51))
             if (player.hand[i] and i < 5):
                 player.hand[i].cardsprite.rect.x = 50+(i*150)
-                player.hand[i].cardsprite.rect.y = 250+(i*10)
+                player.hand[i].cardsprite.rect.y = 500+(heightmod)
                 player.hand[i].artsprite.rect.x = 50+(i*150)+3
-                player.hand[i].artsprite.rect.y = 250+(i*10)+3
+                player.hand[i].artsprite.rect.y = 500+(heightmod)+3
             elif (player.hand[i]):
                 player.hand[i].cardsprite.rect.x = 50+((i-5)*150)
-                player.hand[i].cardsprite.rect.y = 450+((i-5)*10)
+                player.hand[i].cardsprite.rect.y = 550+(heightmod-5)
                 player.hand[i].artsprite.rect.x = 50+((i-5)*150)+3
-                player.hand[i].artsprite.rect.y = 450+((i-5)*10)+3
-
-        # add all card sprites to spritegroup
-        screen.fill((200,200,200))
-        for i in range(len(player.hand)):
-            render_card(player.hand[i])
+                player.hand[i].artsprite.rect.y = 550+(heightmod-5)+3
             
         # individual screen elements
         if(player.prompt != []):
@@ -224,7 +221,17 @@ def render_player(player):
         font_playername.render_to(screen, (120,50), str(player.name), (0, 0, 0))
         cardonmouse = card_on_mouse(player) 
         if (cardonmouse):
+            cardonmouse.cardsprite.rect.y -= 100
+            cardonmouse.artsprite.rect.y -= 100
             font_cardselection.render_to(screen, (120,100), cardonmouse.name, (0, 0, 0))
+
+        # add all card sprites to spritegroup
+        screen.fill((200,200,200))
+        for i in range(len(player.hand)):
+            render_card(player.hand[i])
+
+        # render selected card over others
+        if (cardonmouse):
             render_card(cardonmouse)
 
         # render last card played by opponent so we see what were responding to
