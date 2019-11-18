@@ -13,6 +13,7 @@ def strbool(s):
 # loads card of given name into actual card object
 def load_card(name, card, player):
     if name:
+        print("loading card: " +name)
         # card parser
         f= open("card_data.txt", "r")
         stuff = f.readlines()
@@ -63,10 +64,11 @@ def load_card(name, card, player):
             if(stuff[i].strip() == name):
                 for j in range(i,len(stuff)):
                     if(stuff[j].strip()=="end"):
+                        #print(stuff[j], str(j))
                         end = j
                         break
-                #print(str(i+1) +", " +str(end-1))
-                for k in range(i+1,end-1):
+                #print(str(i+1) +", " +str(end))
+                for k in range(i+1,end):
                     line = stuff[k].split()
                     newmod = []
                     newmod.append(line[0].strip())
@@ -75,9 +77,10 @@ def load_card(name, card, player):
                     for l in range(2,len(line)):
                         newmod.append(int(line[l].strip()))
                     card.modifiers.append(newmod)
-        """for i in range(len(card.modifiers)):
+        print(card.name)
+        for i in range(len(card.modifiers)):
             for j in range(len(card.modifiers[i])):
-                print(card.modifiers[i][j])"""
+                print(card.modifiers[i][j])
 
 
 
