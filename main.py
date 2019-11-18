@@ -187,9 +187,12 @@ def render_card(card):
     render_defenseicons(card)
     sprites_group.update()
     sprites_group.draw(screen)
-    font_description.render_to(screen, (card.cardsprite.rect.x+20, card.cardsprite.rect.y+210), card.description, (0, 0, 0))
     font_stamcost.render_to(screen, (card.cardsprite.rect.x+10, card.cardsprite.rect.y+10), str(card.basecost), (0, 255, 0))
     font_cardname.render_to(screen, (card.cardsprite.rect.x+5, card.cardsprite.rect.y+180), card.name, (0, 0, 0))
+    # crude description multiline splitter, room for 5 rows of about 10-15 characters each atm.
+    desc = card.description.split("\\n")
+    for i in range(len(desc)):
+        font_description.render_to(screen, (card.cardsprite.rect.x+20, card.cardsprite.rect.y+210+(i*20)), desc[i], (0, 0, 0))
     sprites_group.empty()
 
 def render_player(player):
@@ -209,16 +212,11 @@ def render_player(player):
                 player.hand[i].artsprite.rect.x = 50+(i*150)+3
                 player.hand[i].artsprite.rect.y = 500+(heightmod)+3
             elif (player.hand[i]):
-                player.hand[i].cardsprite.rect.x = 50+((i-5)*150)
+                player.hand[i].cardsprite.rect.x = 40+((i-5)*150)
                 player.hand[i].cardsprite.rect.y = 550+(heightmod-5)
-                player.hand[i].artsprite.rect.x = 50+((i-5)*150)+3
+                player.hand[i].artsprite.rect.x = 40+((i-5)*150)+3
                 player.hand[i].artsprite.rect.y = 550+(heightmod-5)+3
             
-        # individual screen elements
-        if(player.prompt != []):
-            font_prompt.render_to(screen, (400,10), player.prompt[0], (0, 0, 0))
-        font_stamina.render_to(screen, (120,10), str(player.stamina), (0, 255, 0))
-        font_playername.render_to(screen, (120,50), str(player.name), (0, 0, 0))
         cardonmouse = card_on_mouse(player) 
         if (cardonmouse):
             cardonmouse.cardsprite.rect.y -= 100
@@ -230,18 +228,25 @@ def render_player(player):
         for i in range(len(player.hand)):
             render_card(player.hand[i])
 
-        # render selected card over others
-        if (cardonmouse):
-            render_card(cardonmouse)
-
         # render last card played by opponent so we see what were responding to
         if(len(otherplayer.stack) > 0):
             op_stacktop = otherplayer.stack[len(otherplayer.stack)-1]
             op_stacktop.cardsprite.rect.x = 525
-            op_stacktop.cardsprite.rect.y = 10
+            op_stacktop.cardsprite.rect.y = 50
             op_stacktop.artsprite.rect.x = 525+3
-            op_stacktop.artsprite.rect.y = 10+3
+            op_stacktop.artsprite.rect.y = 50+3
             render_card(op_stacktop)
+        
+        # render selected card over others
+        if (cardonmouse):
+            render_card(cardonmouse)
+
+        # individual screen elements
+        if(player.prompt != []):
+            font_prompt.render_to(screen, (400,10), player.prompt[0], (0, 0, 0))
+        font_stamina.render_to(screen, (120,10), str(player.stamina), (0, 255, 0))
+        font_playername.render_to(screen, (120,50), str(player.name), (0, 0, 0))
+
         # health indicators
             # current player
         font_playername.render_to(screen, (10,200), str(player.name), (0, 0, 0))
