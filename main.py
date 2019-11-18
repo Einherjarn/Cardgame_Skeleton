@@ -31,10 +31,13 @@ player1 = Player("dev_testing_deck_longsword", "player 1")
 player1.shuffle()
 player2 = Player("dev_testing_deck_longsword", "player 2")
 player2.shuffle()
+
+# variables used in handling gamestate
 initiative = None
 opener = None
 opponent = None
 skip_playcard = False
+swap = False
 card = None
 resolving = 0
 
@@ -190,92 +193,108 @@ def render_card(card):
     sprites_group.empty()
 
 def render_player(player):
-    # render cards, in 2 rows if more than 5
-    for i in range(len(player.hand)):
-        if (player.hand[i] and i < 5):
-            player.hand[i].cardsprite.rect.x = 50+(i*150)
-            player.hand[i].cardsprite.rect.y = 250+(i*10)
-            player.hand[i].artsprite.rect.x = 50+(i*150)+3
-            player.hand[i].artsprite.rect.y = 250+(i*10)+3
-        elif (player.hand[i]):
-            player.hand[i].cardsprite.rect.x = 50+((i-5)*150)
-            player.hand[i].cardsprite.rect.y = 450+((i-5)*10)
-            player.hand[i].artsprite.rect.x = 50+((i-5)*150)+3
-            player.hand[i].artsprite.rect.y = 450+((i-5)*10)+3
+    global swap
+    if (swap == False):
+        if player == player1:
+            otherplayer = player2
+        else:
+            otherplayer = player1
+        # render cards, in 2 rows if more than 5
+        for i in range(len(player.hand)):
+            if (player.hand[i] and i < 5):
+                player.hand[i].cardsprite.rect.x = 50+(i*150)
+                player.hand[i].cardsprite.rect.y = 250+(i*10)
+                player.hand[i].artsprite.rect.x = 50+(i*150)+3
+                player.hand[i].artsprite.rect.y = 250+(i*10)+3
+            elif (player.hand[i]):
+                player.hand[i].cardsprite.rect.x = 50+((i-5)*150)
+                player.hand[i].cardsprite.rect.y = 450+((i-5)*10)
+                player.hand[i].artsprite.rect.x = 50+((i-5)*150)+3
+                player.hand[i].artsprite.rect.y = 450+((i-5)*10)+3
 
-    # add all card sprites to spritegroup
-    screen.fill((200,200,200))
-    for i in range(len(player.hand)):
-        render_card(player.hand[i])
-        
-    # individual screen elements
-    if(player.prompt != []):
-        font_prompt.render_to(screen, (400,10), player.prompt[0], (0, 0, 0))
-    font_stamina.render_to(screen, (120,10), str(player.stamina), (0, 255, 0))
-    font_playername.render_to(screen, (120,50), str(player.name), (0, 0, 0))
-    cardonmouse = card_on_mouse(player) 
-    if (cardonmouse):
-        font_cardselection.render_to(screen, (120,100), cardonmouse.name, (0, 0, 0))
-        render_card(cardonmouse)
-    # health indicators
-    # player status
-    if player == player1:
-        otherplayer = player2
+        # add all card sprites to spritegroup
+        screen.fill((200,200,200))
+        for i in range(len(player.hand)):
+            render_card(player.hand[i])
+            
+        # individual screen elements
+        if(player.prompt != []):
+            font_prompt.render_to(screen, (400,10), player.prompt[0], (0, 0, 0))
+        font_stamina.render_to(screen, (120,10), str(player.stamina), (0, 255, 0))
+        font_playername.render_to(screen, (120,50), str(player.name), (0, 0, 0))
+        cardonmouse = card_on_mouse(player) 
+        if (cardonmouse):
+            font_cardselection.render_to(screen, (120,100), cardonmouse.name, (0, 0, 0))
+            render_card(cardonmouse)
+
+        # render last card played by opponent so we see what were responding to
+        if(len(otherplayer.stack) > 0):
+            op_stacktop = otherplayer.stack[len(otherplayer.stack)-1]
+            op_stacktop.cardsprite.rect.x = 525
+            op_stacktop.cardsprite.rect.y = 10
+            op_stacktop.artsprite.rect.x = 525+3
+            op_stacktop.artsprite.rect.y = 10+3
+            render_card(op_stacktop)
+        # health indicators
+            # current player
+        font_playername.render_to(screen, (10,200), str(player.name), (0, 0, 0))
+        playersprite = Sprite("player_status_image.png")
+        playersprite.rect.x = 5
+        playersprite.rect.y = 5
+        sprites_group.add(playersprite)
+        sprites_group.update()
+        sprites_group.draw(screen)
+        sprites_group.empty()
+        #head
+        font_health.render_to(screen, (55,15), str(player.health[0]), (255, 0, 0))
+        #r-arm
+        font_health.render_to(screen, (10,50), str(player.health[1]), (255, 0, 0))
+        #r-torso
+        font_health.render_to(screen, (40,50), str(player.health[2]), (255, 0, 0))
+        #r-leg
+        font_health.render_to(screen, (40,160), str(player.health[3]), (255, 0, 0))
+        #l-arm
+        font_health.render_to(screen, (100,50), str(player.health[4]), (255, 0, 0))
+        #l-torso
+        font_health.render_to(screen, (70,50), str(player.health[5]), (255, 0, 0))
+        #l-leg
+        font_health.render_to(screen, (70,160), str(player.health[6]), (255, 0, 0))
+
+            # opponent
+        player = otherplayer
+        font_playername.render_to(screen, (800,200), str(player.name), (0, 0, 0))
+        playersprite = Sprite("player_status_image.png")
+        playersprite.rect.x = 850
+        playersprite.rect.y = 5
+        sprites_group.add(playersprite)
+        sprites_group.update()
+        sprites_group.draw(screen)
+        sprites_group.empty()
+        #head
+        font_health.render_to(screen, (900,15), str(player.health[0]), (255, 0, 0))
+        #r-arm
+        font_health.render_to(screen, (855,50), str(player.health[1]), (255, 0, 0))
+        #r-torso
+        font_health.render_to(screen, (885,50), str(player.health[2]), (255, 0, 0))
+        #r-leg
+        font_health.render_to(screen, (885,160), str(player.health[3]), (255, 0, 0))
+        #l-arm
+        font_health.render_to(screen, (945,50), str(player.health[4]), (255, 0, 0))
+        #l-torso
+        font_health.render_to(screen, (915,50), str(player.health[5]), (255, 0, 0))
+        #l-leg
+        font_health.render_to(screen, (915,160), str(player.health[6]), (255, 0, 0)) 
     else:
-        otherplayer = player1
-    font_playername.render_to(screen, (10,200), str(player.name), (0, 0, 0))
-    playersprite = Sprite("player_status_image.png")
-    playersprite.rect.x = 5
-    playersprite.rect.y = 5
-    sprites_group.add(playersprite)
-    sprites_group.update()
-    sprites_group.draw(screen)
-    sprites_group.empty()
-    #head
-    font_health.render_to(screen, (55,15), str(player.health[0]), (255, 0, 0))
-    #r-arm
-    font_health.render_to(screen, (10,50), str(player.health[1]), (255, 0, 0))
-    #r-torso
-    font_health.render_to(screen, (40,50), str(player.health[2]), (255, 0, 0))
-    #r-leg
-    font_health.render_to(screen, (40,160), str(player.health[3]), (255, 0, 0))
-    #l-arm
-    font_health.render_to(screen, (100,50), str(player.health[4]), (255, 0, 0))
-    #l-torso
-    font_health.render_to(screen, (70,50), str(player.health[5]), (255, 0, 0))
-    #l-leg
-    font_health.render_to(screen, (70,160), str(player.health[6]), (255, 0, 0))
-
-    # opponent status
-    player = otherplayer
-    font_playername.render_to(screen, (800,200), str(player.name), (0, 0, 0))
-    playersprite = Sprite("player_status_image.png")
-    playersprite.rect.x = 850
-    playersprite.rect.y = 5
-    sprites_group.add(playersprite)
-    sprites_group.update()
-    sprites_group.draw(screen)
-    sprites_group.empty()
-    #head
-    font_health.render_to(screen, (900,15), str(player.health[0]), (255, 0, 0))
-    #r-arm
-    font_health.render_to(screen, (855,50), str(player.health[1]), (255, 0, 0))
-    #r-torso
-    font_health.render_to(screen, (885,50), str(player.health[2]), (255, 0, 0))
-    #r-leg
-    font_health.render_to(screen, (885,160), str(player.health[3]), (255, 0, 0))
-    #l-arm
-    font_health.render_to(screen, (945,50), str(player.health[4]), (255, 0, 0))
-    #l-torso
-    font_health.render_to(screen, (915,50), str(player.health[5]), (255, 0, 0))
-    #l-leg
-    font_health.render_to(screen, (915,160), str(player.health[6]), (255, 0, 0)) 
-    
+        screen.fill((0,0,0))
+        font_prompt.render_to(screen, (40,40), player.name +" please click to continue.", (255, 255, 255))
     # updating screen
-    pygame.display.flip()   
+    pygame.display.flip()
 
-# todo, black graphics transition screen, wait for any input to acknowledge seatswitch
+# swap player in seat
 def hotseat(player):
+    global swap
+    if(swap == False):
+        swap = True
     if(player == player1):
         player = player2
     else:
@@ -347,89 +366,96 @@ def process_prompt(player, player1, player2):
                 
 
 def iterate_game():
-    global player, player1, player2, initiative, opener, opponent, resolving, skip_playcard, card
+    global player, player1, player2, initiative, opener, opponent, resolving, skip_playcard, card, swap, click
     """print(str(player) +str(player1) +str(player2))
     print(str(initiative) +str(opener) +str(opponent))
     print(str(resolving))"""
-    if player == player1:
-        otherplayer = player2
-    else:
-        otherplayer = player1
-    # current player has no prompts
-    if(player.prompt == []):
-        if(opener == None):
-            opes = 0
+    if(swap == False):
+        if player == player1:
+            otherplayer = player2
         else:
-            opes = len(opener.stack)
-        if(opponent == None):
-            opps = 0
-        else:
-           opps = len(opponent.stack)
-        # we were previously resolving stacks
-        #print(str(resolving) +", " +str(opes) +", " +str(opps))
-        if(resolving < (opes + opps - 1)):
-            print("resolving exchange..")
-            #print("stacksizes: " + str(len(opener.stack)) + ", " + str(len(opponent.stack)) + "; resolve iteration: " +str(resolving))
-            # we are resolving odd iteration, meaning opener move
-            if((resolving % 2) != 0 or resolving == 0):
-                #print("resolving: opener[" + str(resolving) + "], opponent[" + str(resolving) + "]")
-                resolve(opener, opponent, opener.stack[resolving], opponent.stack[resolving])
-                resolving += 1
-            # we are resolving even iteration, meaning opponent move
+            otherplayer = player1
+        # current player has no prompts
+        if(player.prompt == []):
+            if(opener == None):
+                opes = 0
             else:
-                #print("resolving: opponent[" + str(resolving) + "], opener[" + str(resolving+1) + "]")
-                resolve(opponent, opener, opponent.stack[resolving], opener.stack[resolving+1])
-                resolving += 1
-        # playing a new card, expected primary route of logic
-        else:
-            if(skip_playcard == False):
-                # draw if hand not full and we havent drawn yet this turn
-                if (len(player.hand) < 10 and player.drew == False):
-                    player.draw(1)
-                player.drew = True
-                # ask current player for card
-                card = play_card(player)
-            # card did not create prompt
-            if(player.prompt == []):
-                if(card):
-                    if(card.take_initiative == True):
-                        initiative = player
-                    # if this was the first card played in an exchange
-                    if(opener == None):
-                        opener = player
-                        opponent = otherplayer
-                    player.stack.append(card)
-                    card = None
-                    skip_playcard = False
-                    player.drew = False
-                    player = hotseat(player)
-            # newly played card caused a prompt       
+                opes = len(opener.stack)
+            if(opponent == None):
+                opps = 0
             else:
-                if(card):
-                    skip_playcard = True
-                return
-        # we have resolved both stacks
-        if((resolving >= (opes + opps -1)) and resolving > 0 and opener != None and opponent != None):
-            print("resolved both stacks")
-            resolving = 0
-            opener.stack = []
-            leftover = opponent.stack[len(opponent.stack)-1]
-            opponent.stack = []
-            if opener == player1:
-                opener = player2
-                opponent = player1
+               opps = len(opponent.stack)
+            # we were previously resolving stacks
+            #print(str(resolving) +", " +str(opes) +", " +str(opps))
+            if(resolving < (opes + opps - 1)):
+                print("resolving exchange..")
+                #print("stacksizes: " + str(len(opener.stack)) + ", " + str(len(opponent.stack)) + "; resolve iteration: " +str(resolving))
+                # we are resolving odd iteration, meaning opener move
+                if((resolving % 2) != 0 or resolving == 0):
+                    #print("resolving: opener[" + str(resolving) + "], opponent[" + str(resolving) + "]")
+                    resolve(opener, opponent, opener.stack[resolving], opponent.stack[resolving])
+                    resolving += 1
+                # we are resolving even iteration, meaning opponent move
+                else:
+                    #print("resolving: opponent[" + str(resolving) + "], opener[" + str(resolving+1) + "]")
+                    resolve(opponent, opener, opponent.stack[resolving], opener.stack[resolving+1])
+                    resolving += 1
+            # playing a new card, expected primary route of logic
             else:
-                opponent = player2
-                opener = player1
-            opener.stack.append(leftover)
+                if(skip_playcard == False):
+                    # draw if hand not full and we havent drawn yet this turn
+                    if (len(player.hand) < 10 and player.drew == False):
+                        player.draw(1)
+                    player.drew = True
+                    # ask current player for card
+                    card = play_card(player)
+                # card did not create prompt
+                if(player.prompt == []):
+                    if(card):
+                        if(card.take_initiative == True):
+                            initiative = player
+                        # if this was the first card played in an exchange
+                        if(opener == None):
+                            opener = player
+                            opponent = otherplayer
+                        player.stack.append(card)
+                        card = None
+                        skip_playcard = False
+                        player.drew = False
+                        player = hotseat(player)
+                # newly played card caused a prompt       
+                else:
+                    if(card):
+                        skip_playcard = True
+                    return
+            # we have resolved both stacks
+            if((resolving >= (opes + opps -1)) and resolving > 0 and opener != None and opponent != None):
+                print("resolved both stacks")
+                resolving = 0
+                opener.stack = []
+                leftover = opponent.stack[len(opponent.stack)-1]
+                opponent.stack = []
+                if opener == player1:
+                    opener = player2
+                    opponent = player1
+                else:
+                    opponent = player2
+                    opener = player1
+                opener.stack.append(leftover)
 
-    # current player has prompts
-    elif(len(player.prompt) > 0):
-        process_prompt(player, player1, player2)
-    # other player has prompts
-    elif(len(otherplayer.prompt) > 0):
-        process_prompt(otherplayer, player2, player2)
-    
+        # current player has prompts
+        elif(len(player.prompt) > 0):
+            process_prompt(player, player1, player2)
+        # other player has prompts
+        elif(len(otherplayer.prompt) > 0):
+            process_prompt(otherplayer, player2, player2)
+    else:
+        # wait on black screen for new player to acknowledge seat swap
+        (b1,b2,b3) = pygame.mouse.get_pressed()
+        if(b1 > 0 and (pygame.time.get_ticks() - 100 > click) and event.type == pygame.MOUSEBUTTONDOWN):
+            click = pygame.time.get_ticks()
+            swap = False
+       
 
 # Main Program Logic Loop
 while Continue:
