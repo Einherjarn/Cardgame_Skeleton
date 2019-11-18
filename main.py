@@ -27,7 +27,7 @@ Continue = True
 clock = pygame.time.Clock()
 click = pygame.time.get_ticks()
 
-player1 = Player("dev_testing_deck_longsword", "player 1")
+player1 = Player("dev_testing_deck_greatsword", "player 1")
 player1.shuffle()
 player2 = Player("dev_testing_deck_longsword", "player 2")
 player2.shuffle()
@@ -136,8 +136,8 @@ def render_targeticons(card):
         sprites_group.add(sprite)
     if(card.target[5]):
         sprite = Sprite("targeticon_left_torso.png")
-        sprite.rect.x = card.cardsprite.rect.x+245
-        sprite.rect.y = card.cardsprite.rect.y+258
+        sprite.rect.x = card.cardsprite.rect.x+243
+        sprite.rect.y = card.cardsprite.rect.y+256
         sprites_group.add(sprite)
     if(card.target[6]):
         sprite = Sprite("targeticon_left_leg.png")

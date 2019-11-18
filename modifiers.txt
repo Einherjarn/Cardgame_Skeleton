@@ -42,3 +42,6 @@ Seventh_bind_thrust
 discardRandomOpp OnDeflect 1
 discardRandomOpp OnHit 1
 end
+wide_cleave
+discardPromptSelf OnPlay 2
+end

@@ -21,38 +21,39 @@ def load_card(name, card, player):
             line = stuff[i].split()
             """for j in range(len(line)):
                 print(line[j], j)"""
-            if line[0].strip()==name.strip():
-                #convert name from _ to spaces
-                name = line[0].strip()
-                newname = ""
-                for i in name:
-                    if i=="_":
-                        newname +=" "
-                    else:
-                        newname +=i
-                card.name = newname
-                card.artsprite = Sprite(line[1].strip())
-                card.basecost = int(line[2].strip())
-                card.range = int(line[3].strip())
-                for i in range(len(card.target)):
-                    card.target[i] = strbool(line[i+4].strip())
-                for i in range(len(card.defend)):
-                    card.defend[i] = strbool(line[i+11].strip())
-                for i in range(len(card.power)):
-                    card.power[i] = int(line[i+18].strip())
-                for i in range(len(card.defense_power)):
-                    card.defense_power[i] = int(line[i+25].strip())
-                card.take_initiative = strbool(line[32].strip())
-                #convert description from _ to spaces
-                description = line[33].strip()
-                newdesc = ""
-                for i in description:
-                    if i=="_":
-                        newdesc +=" "
-                    else:
-                        newdesc +=i
+            if(len(line) > 0):
+                if line[0].strip()==name.strip():
+                    #convert name from _ to spaces
+                    name = line[0].strip()
+                    newname = ""
+                    for i in name:
+                        if i=="_":
+                            newname +=" "
+                        else:
+                            newname +=i
+                    card.name = newname
+                    card.artsprite = Sprite(line[1].strip())
+                    card.basecost = int(line[2].strip())
+                    card.range = int(line[3].strip())
+                    for i in range(len(card.target)):
+                        card.target[i] = strbool(line[i+4].strip())
+                    for i in range(len(card.defend)):
+                        card.defend[i] = strbool(line[i+11].strip())
+                    for i in range(len(card.power)):
+                        card.power[i] = int(line[i+18].strip())
+                    for i in range(len(card.defense_power)):
+                        card.defense_power[i] = int(line[i+25].strip())
+                    card.take_initiative = strbool(line[32].strip())
+                    #convert description from _ to spaces
+                    description = line[33].strip()
+                    newdesc = ""
+                    for i in description:
+                        if i=="_":
+                            newdesc +=" "
+                        else:
+                            newdesc +=i
 
-                card.description = newdesc
+                    card.description = newdesc
 
         # modifier parser
         f=open("modifiers.txt")
@@ -90,19 +91,22 @@ def load_deck(name, deck, player):
 
         found = False
         cardnames = []
-
+        
         for i in stuff:
             if found:
                 if i.strip()!="end_deck":
                     cardnames.append(i)
+                else:
+                    break
             if i.strip()==name:
                 found = True
 
-        for i in range(len(cardnames)-1):
+        for i in range(len(cardnames)):
             deck.append(Card_base())
             load_card(cardnames[i], deck[i], player)
 
-        """for i in deck:
+        """print("loading deck: " +name)
+        for i in deck:
             print(i.name)"""
 
 

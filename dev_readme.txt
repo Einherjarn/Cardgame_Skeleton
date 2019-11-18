@@ -10,10 +10,11 @@ herp de derp
 card format:
 name,art filename,stamcost,range,target (7 bools),deftarg (7 bools),attackpower (7ints, 0-2),defpower (7ints, 0-2),initiative bool,description ('_' for spaces, converted when read in)
 			
-"""Hits follows the format of
-head, right arm, right torso, right leg, left arm, left torso, left leg"""
-"""stats are
-strength, quickness, foresight and fortitution"""
+target format (anything to do with bodyparts is in this order)
+head, right arm, right torso, right leg, left arm, left torso, left leg
+
+modifier stats
+strength, quickness, foresight and fortitution
 
 card stack resolving graph
 
