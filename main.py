@@ -53,7 +53,7 @@ def run_arbitrary(name, args):
     func(*args)
 
 def card_on_mouse(player):
-    lowdist = 9999
+    lowdist = 250
     for i in range(len(player.hand)):
         if player.hand[i]:
             (x,y) = pygame.mouse.get_pos()
@@ -87,19 +87,23 @@ def play_card(player):
         card = card_on_mouse(player)
         click = pygame.time.get_ticks()
         if(card != None):
-            # find and execute possible OnPlay modifiers
-            for i in range(len(card.modifiers)):
-                if(card.modifiers[i][1] == "OnPlay"):
-                    args = []
-                    for j in range(2,len(card.modifiers[i])):
-                        args.append(card.modifiers[i][j])
-                    args.append(player1)
-                    args.append(player2)
-                    run_arbitrary(card.modifiers[i][0],args)
-                    print(player.name)
-            print(card.name)
-            player.discard(player.hand.index(card))
-            return card
+            if(card.basecost <= player.stamina):
+                # find and execute possible OnPlay modifiers
+                for i in range(len(card.modifiers)):
+                    if(card.modifiers[i][1] == "OnPlay"):
+                        args = []
+                        for j in range(2,len(card.modifiers[i])):
+                            args.append(card.modifiers[i][j])
+                        args.append(player1)
+                        args.append(player2)
+                        run_arbitrary(card.modifiers[i][0],args)
+                        print(player.name)
+                print(card.name)
+                player.discard(player.hand.index(card))
+                player.stamina -= card.basecost
+                return card
+            else:
+                return
         else:
             return
 
@@ -221,7 +225,6 @@ def render_player(player):
         if (cardonmouse):
             cardonmouse.cardsprite.rect.y -= 100
             cardonmouse.artsprite.rect.y -= 100
-            font_cardselection.render_to(screen, (120,100), cardonmouse.name, (0, 0, 0))
 
         # add all card sprites to spritegroup
         screen.fill((200,200,200))
@@ -240,6 +243,7 @@ def render_player(player):
         # render selected card over others
         if (cardonmouse):
             render_card(cardonmouse)
+            font_cardselection.render_to(screen, (120,100), cardonmouse.name, (0, 0, 0))
 
         # individual screen elements
         if(player.prompt != []):
