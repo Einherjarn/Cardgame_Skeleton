@@ -19,10 +19,10 @@ Sixth_bind_thrust card_art_strike.png 1 4 False False False False False True Fal
 Eighth_bind_thrust card_art_strike.png 1 4 False False False False False True False False False False True False False False 0 0 0 0 0 1 0 0 0 0 1 0 0 0 True Dev_Thrust_to_outside_leg_with_a_bind:_discard_1
 Seventh_bind_thrust card_art_block.png 1 4 False False False False True False False False False False False True False False 0 0 0 0 1 0 0 0 0 0 0 1 0 0 True Dev_Thrust_to_inside_leg_with_a_bind:_discard_1
 
-wide_cleave card_art_wide_cleave.png 3 1 False True True False True True False False True True False False False False 0 2 2 0 2 2 0 0 2 2 0 0 0 0 True Heavy_cleave\nStrong_right_guard\nChoose_discard_2
+wide_cleave card_art_wide_cleave.png 3 1 False True True False True True False False True True False False False False 0 1 1 0 2 2 0 0 2 2 0 0 0 0 True Heavy_cleave\nStrong_right_guard\nChoose_discard_2
 greatsword_overhead_cut card_art_greatsword_overhead_cut.png 2 2 True False False False False True False True False False False False False False 2 0 0 0 0 1 0 2 0 0 0 0 0 0 True Heavy_high_cut\nStrong_high_counter
 recuperate card_art_recuperate.png 0 4 False False False False False False False False False False False False False False 0 0 0 0 0 0 0 0 0 0 0 0 0 0 False Draw_2\nRecover_2_stamina
-strafing_counterattack card_art_strafing_counterattack.png 1 2 False False False False True True False False False False False True True True 0 0 0 0 1 1 0 0 0 0 0 2 2 2 False Strong_left_evade\nLight_left_cut
+strafing_counterattack card_art_strafing_counterattack.png 1 2 False False False False True True False True False False False True True True 0 0 0 0 1 1 0 2 0 0 0 2 2 2 False Strong_left_evade\nLight_left_cut
 
 low_guard card_art_low_guard.png 1 1 False False False False False False False False False False True False False True 0 0 0 0 0 0 0 0 0 0 2 0 0 2 False Strong_low_guard\nOn_Defend:_opp._discard_1
 high_guard card_art_high_guard.png 1 1 False False False False False False False True True True False True True False 0 0 0 0 0 0 0 2 2 2 0 2 2 0 False Strong_high_guard\nOn_Defend:_opp._discard_1
