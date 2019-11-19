@@ -374,6 +374,10 @@ def render_player(player):
         font_playername.render_to(screen, (120,50), str(player.name), (0, 0, 0))
         font_passbutton.render_to(screen, (20,255), "pass", (0, 0, 0))
 
+        # reset moved sprites after rendering, was causing wrong cards to be played 
+        if (cardonmouse):
+            cardonmouse.cardsprite.rect.y += 100
+            cardonmouse.artsprite.rect.y += 100
     else:
         screen.fill((0,0,0))
         font_prompt.render_to(screen, (40,40), player.name +" please click to continue.", (255, 255, 255))

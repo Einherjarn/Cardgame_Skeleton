@@ -1,3 +1,14 @@
+https://github.com/Einherjarn/Cardgame_Skeleton
+----------------------------------------------------------
+python cardgame LOOSELY based on the cardgame audatia,
+which itself is based on historical european martial arts
+
+group project for TAMK, advanced programming languages
+Kristian Suuronen
+Jari Pelkonen
+Miika Isoviita
+----------------------------------------------------------
+
 links used:
 https://www.101computing.net/creating-sprites-using-pygame/
 https://www.pygame.org/wiki/GettingStarted
