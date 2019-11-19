@@ -110,37 +110,58 @@ def play_card(player):
 # add appropriate target icons to spritegroup
 def render_targeticons(card):
     if(card.target[0]):
-        sprite = Sprite("targeticon_head.png")
+        if(card.power[0] < 2):
+            sprite = Sprite("targeticon_head_light.png")
+        else:    
+            sprite = Sprite("targeticon_head.png")
         sprite.rect.x = card.cardsprite.rect.x+240
         sprite.rect.y = card.cardsprite.rect.y+250
         sprites_group.add(sprite)
     if(card.target[1]):
-        sprite = Sprite("targeticon_right_arm.png")
+        if(card.power[1] < 2):
+            sprite = Sprite("targeticon_right_arm_light.png")
+        else:  
+            sprite = Sprite("targeticon_right_arm.png")
         sprite.rect.x = card.cardsprite.rect.x+232
         sprite.rect.y = card.cardsprite.rect.y+257
         sprites_group.add(sprite)
     if(card.target[2]):
-        sprite = Sprite("targeticon_right_torso.png")
+        if(card.power[2] < 2):
+            sprite = Sprite("targeticon_right_torso_light.png")
+        else:  
+            sprite = Sprite("targeticon_right_torso.png")
         sprite.rect.x = card.cardsprite.rect.x+235
         sprite.rect.y = card.cardsprite.rect.y+256
         sprites_group.add(sprite)
     if(card.target[3]):
-        sprite = Sprite("targeticon_right_leg.png")
+        if(card.power[3] < 2):
+            sprite = Sprite("targeticon_right_leg_light.png")
+        else:  
+            sprite = Sprite("targeticon_right_leg.png")
         sprite.rect.x = card.cardsprite.rect.x+232
         sprite.rect.y = card.cardsprite.rect.y+266
         sprites_group.add(sprite)
     if(card.target[4]):
-        sprite = Sprite("targeticon_left_arm.png")
+        if(card.power[4] < 2):
+            sprite = Sprite("targeticon_left_arm_light.png")
+        else:  
+            sprite = Sprite("targeticon_left_arm.png")
         sprite.rect.x = card.cardsprite.rect.x+248
         sprite.rect.y = card.cardsprite.rect.y+257
         sprites_group.add(sprite)
     if(card.target[5]):
-        sprite = Sprite("targeticon_left_torso.png")
+        if(card.power[5] < 2):
+            sprite = Sprite("targeticon_left_torso_light.png")
+        else:  
+            sprite = Sprite("targeticon_left_torso.png")
         sprite.rect.x = card.cardsprite.rect.x+243
         sprite.rect.y = card.cardsprite.rect.y+256
         sprites_group.add(sprite)
     if(card.target[6]):
-        sprite = Sprite("targeticon_left_leg.png")
+        if(card.power[6] < 2):
+            sprite = Sprite("targeticon_left_leg_light.png")
+        else:  
+            sprite = Sprite("targeticon_left_leg.png")
         sprite.rect.x = card.cardsprite.rect.x+245
         sprite.rect.y = card.cardsprite.rect.y+266
         sprites_group.add(sprite)
@@ -148,37 +169,58 @@ def render_targeticons(card):
 # add appropriate defense icons to spritegroup
 def render_defenseicons(card):
     if(card.defend[0]):
-        sprite = Sprite("targeticon_head.png")
+        if(card.defense_power[0] < 2):
+            sprite = Sprite("targeticon_head_light.png")
+        else:    
+            sprite = Sprite("targeticon_head.png")
         sprite.rect.x = card.cardsprite.rect.x+240
         sprite.rect.y = card.cardsprite.rect.y+283
         sprites_group.add(sprite)
     if(card.defend[1]):
-        sprite = Sprite("targeticon_right_arm.png")
+        if(card.defense_power[1] < 2):
+            sprite = Sprite("targeticon_right_arm_light.png")
+        else:  
+            sprite = Sprite("targeticon_right_arm.png")
         sprite.rect.x = card.cardsprite.rect.x+232
         sprite.rect.y = card.cardsprite.rect.y+290
         sprites_group.add(sprite)
     if(card.defend[2]):
-        sprite = Sprite("targeticon_right_torso.png")
+        if(card.defense_power[2] < 2):
+            sprite = Sprite("targeticon_right_torso_light.png")
+        else:  
+            sprite = Sprite("targeticon_right_torso.png")
         sprite.rect.x = card.cardsprite.rect.x+235
         sprite.rect.y = card.cardsprite.rect.y+289
         sprites_group.add(sprite)
     if(card.defend[3]):
-        sprite = Sprite("targeticon_right_leg.png")
+        if(card.defense_power[3] < 2):
+            sprite = Sprite("targeticon_right_leg_light.png")
+        else:  
+            sprite = Sprite("targeticon_right_leg.png")
         sprite.rect.x = card.cardsprite.rect.x+232
         sprite.rect.y = card.cardsprite.rect.y+299
         sprites_group.add(sprite)
     if(card.defend[4]):
-        sprite = Sprite("targeticon_left_arm.png")
+        if(card.defense_power[4] < 2):
+            sprite = Sprite("targeticon_left_arm_light.png")
+        else:  
+            sprite = Sprite("targeticon_left_arm.png")
         sprite.rect.x = card.cardsprite.rect.x+248
         sprite.rect.y = card.cardsprite.rect.y+290
         sprites_group.add(sprite)
     if(card.defend[5]):
-        sprite = Sprite("targeticon_left_torso.png")
+        if(card.defense_power[5] < 2):
+            sprite = Sprite("targeticon_left_torso_light.png")
+        else:  
+            sprite = Sprite("targeticon_left_torso.png")
         sprite.rect.x = card.cardsprite.rect.x+243
         sprite.rect.y = card.cardsprite.rect.y+289
         sprites_group.add(sprite)
     if(card.defend[6]):
-        sprite = Sprite("targeticon_left_leg.png")
+        if(card.defense_power[6] < 2):
+            sprite = Sprite("targeticon_left_leg_light.png")
+        else:  
+            sprite = Sprite("targeticon_left_leg.png")
         sprite.rect.x = card.cardsprite.rect.x+245
         sprite.rect.y = card.cardsprite.rect.y+299
         sprites_group.add(sprite)
@@ -261,20 +303,19 @@ def render_player(player):
         sprites_group.update()
         sprites_group.draw(screen)
         sprites_group.empty()
-        #head
-        font_health.render_to(screen, (55,15), str(player.health[0]), (255, 0, 0))
-        #r-arm
-        font_health.render_to(screen, (10,50), str(player.health[1]), (255, 0, 0))
-        #r-torso
-        font_health.render_to(screen, (40,50), str(player.health[2]), (255, 0, 0))
-        #r-leg
-        font_health.render_to(screen, (40,160), str(player.health[3]), (255, 0, 0))
-        #l-arm
-        font_health.render_to(screen, (100,50), str(player.health[4]), (255, 0, 0))
-        #l-torso
-        font_health.render_to(screen, (70,50), str(player.health[5]), (255, 0, 0))
-        #l-leg
-        font_health.render_to(screen, (70,160), str(player.health[6]), (255, 0, 0))
+        
+        # [x,y ...]
+        locations = [41,7,6,45,27,45,35,123,92,45,57,45,61,123]
+        bodyparts = ["head","arm","torso","leg","arm","torso","leg"]
+        for i in range(len(player.health)):
+            if(player.health[i] > 0):
+                sprite = Sprite("player_status_"+str(player.health[i])+"_"+bodyparts[i]+".png")
+                sprite.rect.x = locations[i*2]
+                sprite.rect.y = locations[i*2+1]
+                sprites_group.add(sprite)
+                sprites_group.update()
+                sprites_group.draw(screen)
+                sprites_group.empty()
 
             # opponent
         player = otherplayer
@@ -286,20 +327,22 @@ def render_player(player):
         sprites_group.update()
         sprites_group.draw(screen)
         sprites_group.empty()
-        #head
-        font_health.render_to(screen, (900,15), str(player.health[0]), (255, 0, 0))
-        #r-arm
-        font_health.render_to(screen, (855,50), str(player.health[1]), (255, 0, 0))
-        #r-torso
-        font_health.render_to(screen, (885,50), str(player.health[2]), (255, 0, 0))
-        #r-leg
-        font_health.render_to(screen, (885,160), str(player.health[3]), (255, 0, 0))
-        #l-arm
-        font_health.render_to(screen, (945,50), str(player.health[4]), (255, 0, 0))
-        #l-torso
-        font_health.render_to(screen, (915,50), str(player.health[5]), (255, 0, 0))
-        #l-leg
-        font_health.render_to(screen, (915,160), str(player.health[6]), (255, 0, 0)) 
+
+        # [x,y ...]
+        locations = [41,7,6,45,27,45,35,123,92,45,57,45,61,123]
+        for i in range(0,len(locations),2):
+            locations[i] += 845
+        bodyparts = ["head","arm","torso","leg","arm","torso","leg"]
+        for i in range(len(player.health)):
+            if(player.health[i] > 0):
+                sprite = Sprite("player_status_"+str(player.health[i])+"_"+bodyparts[i]+".png")
+                sprite.rect.x = locations[i*2]
+                sprite.rect.y = locations[i*2+1]
+                sprites_group.add(sprite)
+                sprites_group.update()
+                sprites_group.draw(screen)
+                sprites_group.empty()
+
     else:
         screen.fill((0,0,0))
         font_prompt.render_to(screen, (40,40), player.name +" please click to continue.", (255, 255, 255))
