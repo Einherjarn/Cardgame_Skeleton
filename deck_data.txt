@@ -1,4 +1,4 @@
-dev_testing_deck_longsword
+dev_testing_deck_placeholder
 attack_strike
 attack_strike
 attack_strike
@@ -10,10 +10,14 @@ defend_block
 defend_block
 defend_block
 end_deck
+dev_testing_deck_longsword
+end_deck
 dev_testing_deck_greatsword
 wide_cleave
 wide_cleave
 wide_cleave
+strafing_counterattack
+strafing_counterattack
 low_guard
 low_guard
 low_guard

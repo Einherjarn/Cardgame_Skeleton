@@ -2,6 +2,7 @@ import math
 import sys
 import pygame
 import pygame.freetype
+import random
 from modFuncs import *
 from sprite import Sprite
 from card_base import Card_base
@@ -12,7 +13,7 @@ pygame.init()
 size = (960,800)
 screen = pygame.display.set_mode(size)
 
-font_cardname = pygame.freetype.Font(None, 14)
+font_cardname = pygame.freetype.Font(None, 16)
 font_health = pygame.freetype.Font(None, 16)
 font_description = pygame.freetype.Font(None, 18)
 font_stamcost = pygame.freetype.Font(None, 36)
@@ -37,7 +38,7 @@ initiative = None
 opener = None
 opponent = None
 skip_playcard = False
-swap = False
+swap = True
 card = None
 resolving = 0
 
@@ -284,6 +285,10 @@ def render_player(player):
         
         # render selected card over others
         if (cardonmouse):
+            sprite = Sprite("card_select_border.png")
+            sprite.rect.x = cardonmouse.cardsprite.rect.x-2
+            sprite.rect.y = cardonmouse.cardsprite.rect.y-2
+            sprites_group.add(sprite)
             render_card(cardonmouse)
             font_cardselection.render_to(screen, (120,100), cardonmouse.name, (0, 0, 0))
 
@@ -529,8 +534,13 @@ while Continue:
     try:
         player
     except NameError:
-        player = player1
-        initiative = player1
+        # randomize starting player for now, since decks are hardcoded
+        if(bool(random.randint(0, 1))):
+            player = player1
+            initiative = player1
+        else:
+           player = player2
+           initiative = player2
         player1.draw(5)
         player1.setStance()
         player2.draw(5)

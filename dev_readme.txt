@@ -17,14 +17,23 @@ modifier stats
 strength, quickness, foresight and fortitution
 
 card stack resolving graph
-
 1 2 3		1 2 3
 x           x          
   x   		  x      
     x           x   
-
 opener			opponent
 1-1				1-2
 2-2				2-3
-3-3				
+3-3			-> last opponent action put on top of stack for next exchange
 
+very basic gameplay balancing, early dev testing concept
+
+greatsword deck
+	- focus on high value cards, strong attacks
+	- weak defense, likely to run out of stam/cards sooner
+	
+vs.
+	
+longsword deck
+	- all-arounder
+	- focus on hybrid cards for continuous pressure
