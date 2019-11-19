@@ -55,3 +55,11 @@ recuperate
 drawSelf OnPlay 2
 gainStamina OnPlay 2
 end
+quick_thrust
+drawSelf OnPlay 1
+discardPromptSelf OnPlay 1
+discardRandomOpp OnHit 1
+end
+quick_parry
+discardPromptSelf OnPlay 1
+end

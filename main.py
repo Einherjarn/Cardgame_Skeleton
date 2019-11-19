@@ -254,6 +254,11 @@ def render_card(card):
     sprites_group.draw(screen)
     font_stamcost.render_to(screen, (card.cardsprite.rect.x+10, card.cardsprite.rect.y+10), str(card.basecost), (0, 255, 0))
     font_cardname.render_to(screen, (card.cardsprite.rect.x+5, card.cardsprite.rect.y+180), card.name, (0, 0, 0))
+    if(card.take_initiative):
+        text = "(active)"
+    else:
+        text = "(passive)"
+    font_cardname.render_to(screen, (card.cardsprite.rect.x+165, card.cardsprite.rect.y+160), text, (0, 0, 0))
     # crude description multiline splitter, room for 5 rows of about 10-15 characters each atm.
     desc = card.description.split("\\n")
     for i in range(len(desc)):
@@ -461,6 +466,7 @@ def process_prompt(player, player1, player2):
                 
 
 def iterate_game():
+    # todo, get rid of this sinful behaviour and pass everything through
     global player, player1, player2, initiative, opener, opponent, resolving, skip_playcard, card, swap, click
     """print(str(player) +str(player1) +str(player2))
     print(str(initiative) +str(opener) +str(opponent))
@@ -550,7 +556,6 @@ def iterate_game():
         if(b1 > 0 and (pygame.time.get_ticks() - 100 > click) and event.type == pygame.MOUSEBUTTONDOWN):
             click = pygame.time.get_ticks()
             swap = False
-       
 
 # Main Program Logic Loop
 while Continue:
