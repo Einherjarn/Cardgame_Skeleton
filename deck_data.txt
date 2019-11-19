@@ -16,6 +16,9 @@ dev_testing_deck_greatsword
 wide_cleave
 wide_cleave
 wide_cleave
+greatsword_overhead_cut
+greatsword_overhead_cut
+greatsword_overhead_cut
 strafing_counterattack
 strafing_counterattack
 low_guard

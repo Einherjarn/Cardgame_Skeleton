@@ -16,6 +16,7 @@ screen = pygame.display.set_mode(size)
 font_cardname = pygame.freetype.Font(None, 16)
 font_health = pygame.freetype.Font(None, 16)
 font_description = pygame.freetype.Font(None, 18)
+font_passbutton = pygame.freetype.Font(None, 22)
 font_stamcost = pygame.freetype.Font(None, 36)
 font_prompt = pygame.freetype.Font(None, 36)
 font_stamina = pygame.freetype.Font(None, 42)
@@ -26,7 +27,7 @@ pygame.display.set_caption("cardgame skeleton")
 sprites_group = pygame.sprite.Group()
 Continue = True
 clock = pygame.time.Clock()
-click = pygame.time.get_ticks()
+click = 0
 
 player1 = Player("dev_testing_deck_greatsword", "player 1")
 player1.shuffle()
@@ -62,6 +63,18 @@ def card_on_mouse(player):
             if(dist < lowdist):
                 lowdist = dist
                 card = player.hand[i]
+    try:
+        return card
+    except NameError:
+        return
+
+def uibutton_on_mouse(player):
+    lowdist = 100
+    # passbutton is 10,250 , 80x30px image (c. 50, 265)
+    (x,y) = pygame.mouse.get_pos()
+    dist = math.sqrt( ((x-(50))**2)+((y-265)**2) )
+    if(dist < lowdist):
+        card = Card_base()
     try:
         return card
     except NameError:
@@ -106,7 +119,12 @@ def play_card(player):
             else:
                 return
         else:
-            return
+            # quick implementation to pass, todo: some actual ui button structure
+            card = uibutton_on_mouse(player)
+            click = pygame.time.get_ticks()
+            if(card != None):
+                print("pass")
+                return card
 
 # add appropriate target icons to spritegroup
 def render_targeticons(card):
@@ -251,18 +269,19 @@ def render_player(player):
             otherplayer = player1
         # define positions of cards, in 2 rows if more than 5
         for i in range(len(player.hand)):
-            # basic sine wave for cards held in hand
-            heightmod = 50 * (-1 * math.sin((i+0.5)/1.51))
             if (player.hand[i] and i < 5):
+                # basic sine wave for cards held in hand
+                heightmod = 50 * (-1 * math.sin((i+0.5)/1.51))
                 player.hand[i].cardsprite.rect.x = 50+(i*150)
                 player.hand[i].cardsprite.rect.y = 500+(heightmod)
                 player.hand[i].artsprite.rect.x = 50+(i*150)+3
                 player.hand[i].artsprite.rect.y = 500+(heightmod)+3
             elif (player.hand[i]):
+                heightmod = 50 * (math.sin((i+0.5)/1.51))
                 player.hand[i].cardsprite.rect.x = 40+((i-5)*150)
-                player.hand[i].cardsprite.rect.y = 550+(heightmod-5)
+                player.hand[i].cardsprite.rect.y = 550+(heightmod+50)
                 player.hand[i].artsprite.rect.x = 40+((i-5)*150)+3
-                player.hand[i].artsprite.rect.y = 550+(heightmod-5)+3
+                player.hand[i].artsprite.rect.y = 550+(heightmod+50)+3
             
         cardonmouse = card_on_mouse(player) 
         if (cardonmouse):
@@ -291,12 +310,13 @@ def render_player(player):
             sprites_group.add(sprite)
             render_card(cardonmouse)
             font_cardselection.render_to(screen, (120,100), cardonmouse.name, (0, 0, 0))
-
-        # individual screen elements
-        if(player.prompt != []):
-            font_prompt.render_to(screen, (400,10), player.prompt[0], (0, 0, 0))
-        font_stamina.render_to(screen, (120,10), str(player.stamina), (0, 255, 0))
-        font_playername.render_to(screen, (120,50), str(player.name), (0, 0, 0))
+        
+        sprite = Sprite("passbutton.png")
+        sprite.rect.x = 10
+        sprite.rect.y = 250
+        sprites_group.add(sprite)
+        sprites_group.update()
+        sprites_group.draw(screen)
 
         # health indicators
             # current player
@@ -323,8 +343,7 @@ def render_player(player):
                 sprites_group.empty()
 
             # opponent
-        player = otherplayer
-        font_playername.render_to(screen, (800,200), str(player.name), (0, 0, 0))
+        font_playername.render_to(screen, (800,200), str(otherplayer.name), (0, 0, 0))
         playersprite = Sprite("player_status_image.png")
         playersprite.rect.x = 850
         playersprite.rect.y = 5
@@ -340,13 +359,20 @@ def render_player(player):
         bodyparts = ["head","arm","torso","leg","arm","torso","leg"]
         for i in range(len(player.health)):
             if(player.health[i] > 0):
-                sprite = Sprite("player_status_"+str(player.health[i])+"_"+bodyparts[i]+".png")
+                sprite = Sprite("player_status_"+str(otherplayer.health[i])+"_"+bodyparts[i]+".png")
                 sprite.rect.x = locations[i*2]
                 sprite.rect.y = locations[i*2+1]
                 sprites_group.add(sprite)
                 sprites_group.update()
                 sprites_group.draw(screen)
                 sprites_group.empty()
+
+        # individual screen elements
+        if(player.prompt != []):
+            font_prompt.render_to(screen, (400,10), player.prompt[0], (0, 0, 0))
+        font_stamina.render_to(screen, (120,10), str(player.stamina), (0, 255, 0))
+        font_playername.render_to(screen, (120,50), str(player.name), (0, 0, 0))
+        font_passbutton.render_to(screen, (20,255), "pass", (0, 0, 0))
 
     else:
         screen.fill((0,0,0))
@@ -546,6 +572,13 @@ while Continue:
         player2.draw(5)
         player2.setStance()
 
+    # accept immediate new clickety clakety if mouse has come up, if held down keep denying
+    if(event.type == pygame.MOUSEBUTTONDOWN):
+        if(click > 0):
+            click = pygame.time.get_ticks()
+    elif(event.type == pygame.MOUSEBUTTONUP):
+        click = 0
+    
     # process one step of game logic
     iterate_game()
     render_player(player)

@@ -4,7 +4,7 @@ from sprite import Sprite
 class Card_base():
     def __init__(self):
         super().__init__()
-        self.name = "cardname"
+        self.name = "pass"
         self.cardsprite = Sprite("card_base.png")
         self.artsprite = Sprite("card_art_base.png")
         self.basecost = 0
@@ -14,6 +14,6 @@ class Card_base():
         self.defend = [False,False,False,False,False,False,False]
         self.power = [0,0,0,0,0,0,0]
         self.defense_power = [0,0,0,0,0,0,0]
-        self.take_initiative = True
-        self.description = "description"
+        self.take_initiative = False
+        self.description = "pass a turn"
         self.modifiers = []
